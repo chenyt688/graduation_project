@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cyt.graduation_project.business.dao.ResumeDao">
+
+    <insert id="insertUserResume">
+      insert into user_resume(user_id, user_career, education_level, target_subject_name, second_subject_name,
+       education, honor, hobby, experience, self_introduction, adjustment, del_flag)
+      values (#{userId},#{userCareer},#{educationLevel},#{targetSubjectName},#{secondSubjectName},
+      #{education},#{honor},#{hobby},#{experience},#{selfIntroduction},#{adjustment},1)
+    </insert>
+
+    <update id="updateUserResume">
+      update user_resume set user_career = #{userCareer},education_level=#{educationLevel},
+      target_subject_name=#{targetSubjectName},second_subject_name=#{secondSubjectName},
+      education=#{education},honor=#{honor},hobby=#{hobby},experience=#{experience},self_introduction=#{selfIntroduction},
+      adjustment =#{adjustment} where user_id = #{userId}
+    </update>
+</mapper>

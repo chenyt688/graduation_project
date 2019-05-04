@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cyt.graduation_project.business.dao.RoleMenuDao">
+
+    <resultMap id="menuMap" type="com.cyt.graduation_project.business.entry.role.Role">
+        <id column="role_id" property="roleId"/>
+        <result column="role_name" property="roleName"/>
+        <collection property="supmenuList" ofType="com.cyt.graduation_project.business.entry.menu.Supmenu">
+            <id column="supmenu_id" property="supmenuId"/>
+            <result column="basis_menu_id" property="basisMenuId"/>
+            <result column="supmenu_name" property="supmenuName"/>
+            <result column="supmenu_url" property="supmenuUrl"/>
+        </collection>
+    </resultMap>
+
+    <!--basis_menu_id  basis_menu_name-->
+
+    <select id="getMenuByRoleId" resultMap="menuMap">
+        select * from role_menu as rm
+        left join submenu s on s.supmenu_id = rm.supmenu_id
+        where rm.role_id = #{roleId}
+    </select>
+
+</mapper>

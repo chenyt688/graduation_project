@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cyt.graduation_project.business.dao.ActivityDao">
+
+    <resultMap id="activityMap" type="com.cyt.graduation_project.business.entry.activity.ActivityInfo">
+        <id column="activity_d" property="activityId"/>
+        <result column="user_id" property="userId"/>
+        <result column="activity_address" property="activityAddress"/>
+        <result column="application_time" property="applicationTime"/>
+        <result column="pass_time" property="passTime"/>
+        <result column="activity_start_time" property="activityStartTime"/>
+        <result column="activity_endTime" property="activityEndTime"/>
+        <result column="topic" property="topic"/>
+        <result column="img_url" property="imgUrl"/>
+        <result column="demand_num" property="demandNum"/>
+        <result column="organization_profiles" property="organizationProfiles"/>
+        <result column="work_content" property="workContent"/>
+        <result column="treatment_gain" property="treatmentGain"/>
+        <result column="conditions" property="conditions"/>
+        <result column="contact_info" property="contactInfo"/>
+        <result column="review_status" property="reviewStatus"/>
+        <result column="del_flag" property="delFlag"/>
+        <result column="province_name" property="provinceName"/>
+    </resultMap>
+
+    <insert id="addActivityInfo">
+      insert into activity_info(user_id,activity_address,pass_time,activity_start_time,activity_end_time,topic,
+      img_url,demand_num,organization_profiles,work_content,treatment_gain,conditions,contact_info,
+      review_status,del_flag,province_name)
+      values (#{userId},#{activityAddress},#{passTime},#{activityStartTime},#{activityEndTime},#{topic},
+      #{imgUrl},#{demandNum},#{organizationProfiles},#{workContent},#{treatmentGain},#{conditions},#{contactInfo},
+      #{reviewStatus},1,#{provinceName})
+    </insert>
+    <update id="editActivityInfoById">
+      update activity_info set user_id=#{userId},activity_address=#{activityAddress},
+      pass_time=#{passTime},activity_start_time=#{activityStartTime},
+      activity_end_time=#{activityEndTime},topic=#{topic},
+      img_url=#{imgUrl},demand_num=#{demandNum},organization_profiles=#{organizationProfiles},work_content=#{workContent},
+      treatment_gain=#{treatmentGain},conditions=#{conditions},contact_info=#{contactInfo},
+      review_status=#{reviewStatus},province_name=#{provinceName}
+      where activity_id = #{activityId}
+    </update>
+
+
+<!-- activity_start_time like CONCAT(CONCAT('%', #{condition}), '%') or
+        activity_end_time like CONCAT(CONCAT('%', #{condition}), '%') or-->
+
+    <select id="getActivityInfoByCondition" resultMap="activityMap">
+        select * from activity_info where
+        activity_address like CONCAT(CONCAT('%', #{condition}), '%') or
+        topic like CONCAT(CONCAT('%', #{condition}), '%') or
+        review_status like CONCAT(CONCAT('%', #{condition}), '%') or
+        province_name like CONCAT(CONCAT('%', #{condition}), '%')
+        and del_flag = 1
+        limit #{startIndex},#{pageSize}
+    </select>
+
+
+    <select id="getActivityPublishInfoByCondition" resultMap="activityMap">
+        select * from activity_info where   (
+        activity_address like CONCAT(CONCAT('%', #{condition}), '%') or
+        topic like CONCAT(CONCAT('%', #{condition}), '%') or
+        province_name like CONCAT(CONCAT('%', #{condition}), '%'))
+        and review_status = 2 and  del_flag = 1
+        limit #{startIndex},#{pageSize}
+    </select>
+
+</mapper>

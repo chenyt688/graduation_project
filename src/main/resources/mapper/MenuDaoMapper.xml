@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cyt.graduation_project.business.dao.MenuInfoDao">
+
+    <resultMap id="menuMap" type="com.cyt.graduation_project.business.entry.menu.Basemenu">
+        <id column="basis_menu_id" property="basisMenuId"/>
+        <result column="basis_menu_name" property="basisMenuName"/>
+    </resultMap>
+
+    <!--basis_menu_id  basis_menu_name-->
+
+    <select id="getBaseMenu" resultMap="menuMap">
+        select * from base_menu
+    </select>
+
+</mapper>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cyt.graduation_project.business.dao.UserDao">
+
+    <resultMap id="userMap" type="com.cyt.graduation_project.business.entry.userinfo.User">
+        <id column="user_id" property="userId"/>
+        <result column="role_id" property="roleId"/>
+        <result column="user_account" property="userAccount"/>
+        <result column="user_password" property="userPassword"/>
+        <result column="user_name" property="userName"/>
+        <result column="user_gender" property="userGender"/>
+        <result column="user_identity_type" property="userIdentityType"/>
+        <result column="user_identity_data" property="userIdentityData"/>
+        <result column="user_img_url" property="userImgUrl"/>
+        <result column="user_phone" property="userPhone"/>
+        <result column="user_birth" property="userBirth"/>
+        <result column="user_address" property="userAddress"/>
+        <result column="user_email" property="userEmail"/>
+        <result column="user_registration_time" property="userRegistrationTime"/>
+        <result column="del_flag" property="delFlag"/>
+    </resultMap>
+
+    <!--根据用户的账号密码和角色查询用户信息-->
+    <select id="getUserInfo" resultMap="userMap">
+        select * from userInfo as u left join user_role as ur on u.user_id = ur.user_id
+        where u.user_account = #{userAccount} and u.user_password = #{userPassword} and ur.role_id = #{roleId}
+    </select>
+    
+    <!--根据用户电话号码查询用户信息-->
+    <select id="getUserInfoByPhone" resultMap="userMap">
+        select * from userInfo where user_phone = #{userPhone}
+    </select>
+
+    <!-- 判断用户账号是否已经存在或被使用-->
+    <select id="judgeUserByAccount" resultType="boolean">
+        select * from userInfo where user_account = #{userAccout}
+    </select>
+
+    <!--删除用户数据通过用户id-->
+    <update id="deleteUserInfoByUserId" >
+        update userInfo set del_flag = 0 where user_id = #{userId}
+    </update>
+    <!--批量删除用户数据通过用户id-->
+    <update id="deleteMulUserInfoByUserId" >
+        update userInfo set del_flag = 0 where user_id in
+        <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+    <!-- 通过条件查询用户数据-->
+    <select id="getUserInfoByCondition" resultMap="userMap">
+        select * from userInfo where
+        user_account like CONCAT(CONCAT('%', #{condition}), '%')
+        or user_name like CONCAT(CONCAT('%', #{condition}), '%')
+        or user_gender like CONCAT(CONCAT('%', #{condition}), '%')
+        or user_identity_data like CONCAT(CONCAT('%', #{condition}), '%')
+        or user_phone like CONCAT(CONCAT('%', #{condition}), '%')
+        or user_email like CONCAT(CONCAT('%', #{condition}), '%')
+        or user_address like CONCAT(CONCAT('%', #{condition}), '%')
+        or role_id like CONCAT(CONCAT('%', #{condition}), '%')
+        and del_flag = 1
+        limit #{startIndex},#{pageSize}
+    </select>
+
+    <!-- 通过条件查询用户数量-->
+    <select id="getUserInfoNumByCondition" resultType="int">
+        select COUNT(*) from userInfo where
+        user_account like CONCAT(CONCAT('%', #{condition}), '%')
+        or user_name like CONCAT(CONCAT('%', #{condition}), '%')
+        or user_gender like CONCAT(CONCAT('%', #{condition}), '%')
+        or user_identity_data like CONCAT(CONCAT('%', #{condition}), '%')
+        or user_phone like CONCAT(CONCAT('%', #{condition}), '%')
+        or user_email like CONCAT(CONCAT('%', #{condition}), '%')
+        or user_address like CONCAT(CONCAT('%', #{condition}), '%')
+        or role_id like CONCAT(CONCAT('%', #{condition}), '%')
+        and del_flag = 1
+    </select>
+    <!--增加用户-->
+    <insert id="addUserInfo">
+        insert into userInfo
+        (role_id,user_account,user_password,user_name,user_gender,user_identity_data,user_img_url,
+        user_phone,user_birth,user_address,user_email,del_flag) values
+        (#{roleId},#{userAccount},#{userPassword},#{userName},#{userGender},#{userIdentityData},#{userImgUrl},
+        #{userPhone},#{userBirth},#{userAddress},#{userEmail},1)
+    </insert>
+    <!--用户数据修改-->
+    <update id="editUserInfo">
+        update userInfo set role_id=#{roleId},user_account=#{userAccount},user_password=#{userPassword},
+        user_name=#{userName},user_gender=#{userGender},user_identity_data=#{userIdentityData},
+        user_img_url = #{userImgUrl},user_phone=#{userPhone},user_birth=#{userBirth},user_address=#{userAddress},
+        user_email=#{userEmail},del_flag = 1  where user_id = #{userId}
+    </update>
+</mapper>
