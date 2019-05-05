@@ -3,6 +3,10 @@ package com.cyt.graduation_project.business.entry.userinfo;
 public class RecipientInfo {
     private int recipientId;
     private int userId;
+    private String userName;
+    private String userIdCard;
+    private String userPhone;
+    private String userImgUrl;
     private String applicationTime;
     private String passTime;
     private String startTime;
@@ -17,9 +21,13 @@ public class RecipientInfo {
     private String reviewStatus;
     private int delFlag;
 
-    public RecipientInfo(int recipientId, int userId, String applicationTime, String passTime, String startTime, String endTime, String familyStatus, String provImgUrl, String selfAccBookImgUrl, String villageLetterImgUrl, String townProveImgUrl, String studentListImgUrl, String qrcodeUrl, String reviewStatus, int delFlag) {
+    public RecipientInfo(int recipientId, int userId, String userName, String userIdCard, String userPhone, String userImgUrl, String applicationTime, String passTime, String startTime, String endTime, String familyStatus, String provImgUrl, String selfAccBookImgUrl, String villageLetterImgUrl, String townProveImgUrl, String studentListImgUrl, String qrcodeUrl, String reviewStatus, int delFlag) {
         this.recipientId = recipientId;
         this.userId = userId;
+        this.userName = userName;
+        this.userIdCard = userIdCard;
+        this.userPhone = userPhone;
+        this.userImgUrl = userImgUrl;
         this.applicationTime = applicationTime;
         this.passTime = passTime;
         this.startTime = startTime;
@@ -35,25 +43,36 @@ public class RecipientInfo {
         this.delFlag = delFlag;
     }
 
-    @Override
-    public String toString() {
-        return "RecipientInfo{" +
-                "recipientId=" + recipientId +
-                ", userId=" + userId +
-                ", applicationTime='" + applicationTime + '\'' +
-                ", passTime='" + passTime + '\'' +
-                ", startTime='" + startTime + '\'' +
-                ", endTime='" + endTime + '\'' +
-                ", familyStatus='" + familyStatus + '\'' +
-                ", provImgUrl='" + provImgUrl + '\'' +
-                ", selfAccBookImgUrl='" + selfAccBookImgUrl + '\'' +
-                ", villageLetterImgUrl='" + villageLetterImgUrl + '\'' +
-                ", townProveImgUrl='" + townProveImgUrl + '\'' +
-                ", studentListImgUrl='" + studentListImgUrl + '\'' +
-                ", qrcodeUrl='" + qrcodeUrl + '\'' +
-                ", reviewStatus='" + reviewStatus + '\'' +
-                ", delFlag=" + delFlag +
-                '}';
+    public String getUserImgUrl() {
+        return userImgUrl;
+    }
+
+    public void setUserImgUrl(String userImgUrl) {
+        this.userImgUrl = userImgUrl;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserIdCard() {
+        return userIdCard;
+    }
+
+    public void setUserIdCard(String userIdCard) {
+        this.userIdCard = userIdCard;
+    }
+
+    public String getUserPhone() {
+        return userPhone;
+    }
+
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone;
     }
 
     public int getRecipientId() {

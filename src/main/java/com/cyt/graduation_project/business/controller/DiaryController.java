@@ -114,6 +114,19 @@ public class DiaryController {
     }
 
 
+    //查看他人可见的日记信息
+    @RequestMapping(value = "/queryPublishDiary",method = RequestMethod.PUT)
+    public Object queryPublishDiary(int page, int pageSize ){
+        return diaryService.queryPublishDiary(page,pageSize);
+    }
+
+    //查询日他人可见记数量
+    @RequestMapping("/queryPublishDiaryNum")
+    public Object queryPublishDiaryNum(){
+        return diaryService.queryPublishDiaryNum();
+    }
+
+
 
 
 }

@@ -7,7 +7,7 @@ public class ParticipantsInfo {
     private String applyTime;
     private String passTime;  //审核时间
     private String auditor;   //审核人
-    private int reviewStatus;
+    private int reviewStatus; // 1表示报名 2 表示审核成功 3表示上岗中 4 表示活动结束
 
     @Override
     public String toString() {

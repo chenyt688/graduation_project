@@ -44,7 +44,9 @@ public interface ActivityDao {
     @Select("select * from activity_info where activity_id = #{activityId}")
     ActivityInfo queryActivityInfoByActivityId(ActivityInfo activityInfo);
 
-
+    //通过活动id查找活动信息
+    @Select("select * from activity_info where activity_id = #{activityId}")
+    ActivityInfo queryActivityInfoById(int activityId);
     //通过条件查询活动数据
 
     ArrayList<ActivityInfo> getActivityInfoByCondition(@Param("startIndex") int startIndex, @Param("pageSize") int pageSize, @Param("condition") String condition);

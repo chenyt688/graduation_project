@@ -79,4 +79,16 @@ public class DiaryService {
         int startIndex = PageUtil.getPageArea(page,pageSize);
         return diaryDao.queryDiaryByCondition(startIndex,pageSize,condition,userId);
     }
+
+
+    //查看他人可见的日记信息
+    public ArrayList<Diary> queryPublishDiary(int page,int pageSize ){
+        int startIndex = PageUtil.getPageArea(page,pageSize);
+        return diaryDao.queryPublishDiary(startIndex,pageSize);
+    }
+
+    //查询日他人可见记数量
+    public int queryPublishDiaryNum(){
+        return diaryDao.queryPublishDiaryNum();
+    }
 }

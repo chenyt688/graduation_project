@@ -98,6 +98,15 @@ public class ActivityController {
     }
 
 
+    //首页查询发布的支教活动信息
+    @RequestMapping("/queryActivityInfoIndex")
+    public Object queryActivityInfoIndex(){
+        //游客只能查看已经发布的志愿活动
+        return activityService.queryAllActivityInfoPublished(1,15);
+
+    }
+
+
     //更新支教活动信息状态
     @RequestMapping(value = "/updateActivityState", method = RequestMethod.PUT)
     public boolean updateActivityState(int activityId,int reviewStatus){
