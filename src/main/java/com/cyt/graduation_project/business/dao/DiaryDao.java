@@ -63,6 +63,7 @@ public interface DiaryDao {
     @Select("select * from diary where diary_show =1 limit #{startIndex},#{pageSize}")
     ArrayList<Diary> queryPublishDiary(@Param("startIndex") int startIndex, @Param("pageSize") int pageSize );
 
+
     //查询日他人可见记数量
     @Select("select count(*) from diary where diary_show =1")
     int queryPublishDiaryNum();
