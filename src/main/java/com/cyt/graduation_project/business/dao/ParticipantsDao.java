@@ -1,10 +1,10 @@
 package com.cyt.graduation_project.business.dao;
 
+import com.cyt.graduation_project.business.entry.relation.SignActivity;
 import com.cyt.graduation_project.business.entry.userinfo.ParticipantsInfo;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
+
+import java.util.ArrayList;
 
 @Mapper
 public interface ParticipantsDao {
@@ -22,5 +22,26 @@ public interface ParticipantsDao {
     //查看最近用户报名的状况
     @Select("select * from participants_info where user_id=#{userId} order by apply_time DESC limit 1")
     ParticipantsInfo queryJoinInfoByUserId(int userId);
+
+
+
+    //登录用户查看自己申请的活动报名状况
+    ArrayList<SignActivity> queryAllJoinInfo(@Param("startIndex") int startIndex, @Param("pageSize") int pageSize, @Param("userId") int userId);
+
+    //登录用户查看自己申请的活动的数量
+    int queryParticipantNum(int userId);
+
+    //条件查询活动
+    ArrayList<ParticipantsInfo> queryJoinInfoByCondition(@Param("startIndex") int startIndex, @Param("pageSize") int pageSize,@Param("condition") String condition);
+
+    //条件查询查询数量
+    int queryJoinNumByCondition(@Param("condition") String condition);
+
+    //修改报名状态
+    @Update("update participants_info set review_status =#{reviewStatus} where user_id=#{userId} and activity_id=#{activityId}")
+    boolean updateJoinState(@Param("userId") int userId, @Param("activityId") int activityId,@Param("reviewStatus") int reviewStatus);
+
+
+
 
 }

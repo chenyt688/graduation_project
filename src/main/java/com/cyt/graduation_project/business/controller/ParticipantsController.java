@@ -19,16 +19,18 @@ public class ParticipantsController {
 
     //新增用户报名数据
     @RequestMapping(value = "/insertParticipant",method = RequestMethod.PUT)
-    public Object insertParticipant(int userId,int activityId){
-        return participantsService.insertParticipant(userId,activityId);
+    public Object insertParticipant(int userId,int activityId,HttpServletRequest request){
+        User user = (User) request.getSession().getAttribute("userInfo");
+        return participantsService.insertParticipant(user.getUserId(),activityId);
     }
 
 
     //判断用户是否已经报名该活动
     @RequestMapping(value = "/queryParticipantIsExistence",method = RequestMethod.PUT)
-    public Object queryParticipantIsExistence(int userId,int activityId){
+    public Object queryParticipantIsExistence(int userId,int activityId,HttpServletRequest request){
         String flag = "S";
-        int count = participantsService.queryParticipantIsExistence(userId,activityId);
+        User user = (User) request.getSession().getAttribute("userInfo");
+        int count = participantsService.queryParticipantIsExistence(user.getUserId(),activityId);
 
         if(count >= 1){
             flag = "F";
@@ -44,5 +46,35 @@ public class ParticipantsController {
         JoinProcess joinProcess = participantsService.queryActivityInfoByUserId(user.getUserId());
         System.out.println(joinProcess);
         return  joinProcess;
+    }
+
+
+    //登录用户查看自己申请的活动报名状况
+    @RequestMapping(value = "/queryAllJoinInfo",method = RequestMethod.PUT)
+    public Object queryAllJoinInfo(int page, int pageSize,HttpServletRequest request){
+        User user = (User) request.getSession().getAttribute("userInfo");
+        if(user != null){
+            return participantsService.queryAllJoinInfo(page,pageSize,user.getUserId());
+        }
+        return "";
+
+    }
+
+    //登录用户查看自己申请的活动的数量
+    @RequestMapping("/queryParticipantNum")
+    public int queryParticipantNum(HttpServletRequest request){
+        User user = (User) request.getSession().getAttribute("userInfo");
+        if(user != null){
+            return participantsService.queryParticipantNum(user.getUserId());
+        }
+        return 0;
+
+
+    }
+
+    //修改报名用户的报名状态
+    @RequestMapping(value = "/updateJoinState",method = RequestMethod.PUT)
+    public boolean updateJoinState(int userId,int activityId,int reviewStatus){
+        return participantsService.updateJoinState(userId,activityId,reviewStatus);
     }
 }

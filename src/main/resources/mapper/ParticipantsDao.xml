@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cyt.graduation_project.business.dao.ParticipantsDao">
+
+    <resultMap id="signActivityInfo" type="com.cyt.graduation_project.business.entry.relation.SignActivity">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="user_account" property="userAccount"/>
+        <result column="activity_id" property="activityId"/>
+        <result column="topic" property="activityTopic"/>
+        <result column="demand_num" property="demandNum"/>
+        <result column="province_name" property="provinceName"/>
+        <result column="apply_time" property="applyTime"/>
+        <result column="pass_time" property="passTime"/>
+        <result column="auditor" property="auditor"/>
+        <result column="review_status" property="reviewStatus"/>
+    </resultMap>
+
+    <!--basis_menu_id  basis_menu_name-->
+    <!--登录用户查看自己申请的活动报名状况-->
+    <select id="queryAllJoinInfo" resultMap="signActivityInfo">
+        select p.id,p.user_id,u.user_account,p.activity_id,a.topic,a.demand_num,a.province_name,
+        p.apply_time,p.pass_time,p.auditor,p.review_status
+        from participants_info p
+         left join userinfo u on u.user_id = p.user_id
+         left join activity_info a on a.activity_id = p.activity_id
+         where a.user_id =#{userId}
+         limit #{startIndex},#{pageSize}
+    </select>
+    <!---登录用户查看自己申请的活动报名数量-->
+    <select id="queryParticipantNum" resultType="int">
+        select count(*)
+        from participants_info p
+         left join userinfo u on u.user_id = p.user_id
+         left join activity_info a on a.activity_id = p.activity_id
+         where a.user_id =#{userId}
+    </select>
+
+
+    <!--条件查询所有的报名信息-->
+    <select id="queryJoinInfoByCondition" resultMap="signActivityInfo">
+        select p.id,p.user_id,u.user_account,p.activity_id,a.topic,a.demand_num,a.province_name,
+        p.apply_time,p.pass_time,p.auditor,p.review_status
+         from participants_info p
+         left join userinfo u on u.user_id = p.user_id
+         left join activity_info a on a.activity_id = p.activity_id
+         where user_account like CONCAT(CONCAT('%', #{condition}), '%') or
+         topic like CONCAT(CONCAT('%', #{condition}), '%') or
+         province_name like like CONCAT(CONCAT('%', #{condition}), '%')
+         limit #{startIndex},#{pageSize}
+    </select>
+    <!--条件查询报名数量-->
+    <select id="queryJoinNumByCondition" resultType="int">
+        select count(*)
+        from participants_info p
+         left join userinfo u on u.user_id = p.user_id
+         left join activity_info a on a.activity_id = p.activity_id
+         where user_account like CONCAT(CONCAT('%', #{condition}), '%') or
+         topic like CONCAT(CONCAT('%', #{condition}), '%') or
+         province_name like like CONCAT(CONCAT('%', #{condition}), '%')
+    </select>
+
+
+</mapper>

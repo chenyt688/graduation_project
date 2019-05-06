@@ -18,7 +18,7 @@ public class RecipientInfo {
     private String townProveImgUrl;     //乡级证明
     private String studentListImgUrl;   //学籍表
     private String qrcodeUrl;           //二维码
-    private String reviewStatus;
+    private String reviewStatus;        //1表示报名 2表示审核成功  3表示审核失败
     private int delFlag;
 
     public RecipientInfo(int recipientId, int userId, String userName, String userIdCard, String userPhone, String userImgUrl, String applicationTime, String passTime, String startTime, String endTime, String familyStatus, String provImgUrl, String selfAccBookImgUrl, String villageLetterImgUrl, String townProveImgUrl, String studentListImgUrl, String qrcodeUrl, String reviewStatus, int delFlag) {

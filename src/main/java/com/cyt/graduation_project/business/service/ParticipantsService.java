@@ -4,10 +4,16 @@ import com.cyt.graduation_project.business.dao.ActivityDao;
 import com.cyt.graduation_project.business.dao.ParticipantsDao;
 import com.cyt.graduation_project.business.entry.activity.ActivityInfo;
 import com.cyt.graduation_project.business.entry.activity.JoinProcess;
+import com.cyt.graduation_project.business.entry.relation.SignActivity;
 import com.cyt.graduation_project.business.entry.userinfo.ParticipantsInfo;
+import com.cyt.graduation_project.business.entry.userinfo.User;
+import com.cyt.graduation_project.sys.util.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 
 @Service
 public class ParticipantsService {
@@ -35,4 +41,23 @@ public class ParticipantsService {
        JoinProcess joinProcess = new JoinProcess(participantsInfo.getReviewStatus(),activityInfo.getTopic());
        return joinProcess;
     }
+
+    //登录用户查看自己申请的活动报名状况
+    public ArrayList<SignActivity> queryAllJoinInfo(int page, int pageSize, int userId){
+        int startIndex =PageUtil.getPageArea(page,pageSize);
+        return participantsDao.queryAllJoinInfo(startIndex,pageSize,userId);
+
+    }
+
+    //登录用户查看自己申请的活动的数量
+    public int queryParticipantNum(int userId){
+        return participantsDao.queryParticipantNum(userId);
+
+    }
+
+    //修改报名用户的报名状态
+    public boolean updateJoinState(int userId,int activityId,int reviewStatus){
+        return participantsDao.updateJoinState(userId,activityId,reviewStatus);
+    }
+
 }
