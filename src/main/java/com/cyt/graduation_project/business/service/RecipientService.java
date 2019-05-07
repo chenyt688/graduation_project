@@ -3,6 +3,7 @@ package com.cyt.graduation_project.business.service;
 import com.cyt.graduation_project.business.dao.RecipientDao;
 import com.cyt.graduation_project.business.entry.userinfo.RecipientInfo;
 import com.cyt.graduation_project.sys.util.PageUtil;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,12 +50,17 @@ public class RecipientService {
 
 
     //管理员删除申请用户
-    public boolean deleteRecipientInfoByUserId(int userId){
-        return recipientDao.deleteRecipientInfoByUserId(userId);
+    public boolean deleteRecipientInfoByRecipientId(int recipientId){
+        return recipientDao.deleteRecipientInfoByRecipientId(recipientId);
     }
 
     //管理员更新申请用户状态
-    public boolean updateRecipientInfoByUserId(int userId,int reviewStatus){
-        return recipientDao.updateRecipientInfoByUserId(userId,reviewStatus);
+    public boolean updateRecipientInfoByRecipientId(int recipientId,int reviewStatus){
+        return recipientDao.updateRecipientInfoByRecipientId(recipientId,reviewStatus);
+    }
+
+    //通过申请资助id查找信息
+    public RecipientInfo queryRecipientInfoByRecipientId(int recipientId){
+        return recipientDao.queryRecipientInfoByRecipientId(recipientId);
     }
 }
