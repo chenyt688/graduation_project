@@ -6,13 +6,12 @@ import com.cyt.graduation_project.business.entry.activity.ActivityInfo;
 import com.cyt.graduation_project.business.entry.activity.JoinProcess;
 import com.cyt.graduation_project.business.entry.relation.SignActivity;
 import com.cyt.graduation_project.business.entry.userinfo.ParticipantsInfo;
-import com.cyt.graduation_project.business.entry.userinfo.User;
 import com.cyt.graduation_project.sys.util.PageUtil;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 
 @Service
@@ -58,6 +57,11 @@ public class ParticipantsService {
     //修改报名用户的报名状态
     public boolean updateJoinState(int userId,int activityId,int reviewStatus){
         return participantsDao.updateJoinState(userId,activityId,reviewStatus);
+    }
+
+    //删除报名信息
+    public boolean deleteById(int id){
+        return participantsDao.deleteById(id);
     }
 
 }

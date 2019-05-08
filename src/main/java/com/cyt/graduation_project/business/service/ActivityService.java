@@ -1,9 +1,10 @@
 package com.cyt.graduation_project.business.service;
 
 import com.cyt.graduation_project.business.dao.ActivityDao;
+import com.cyt.graduation_project.business.entry.activity.ActivityChars;
 import com.cyt.graduation_project.business.entry.activity.ActivityInfo;
 import com.cyt.graduation_project.sys.util.PageUtil;
-import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -108,6 +109,12 @@ public class ActivityService {
 
         return activityDao.updateActivityState(activityId,reviewStatus);
 
+    }
+
+
+    //查询对应的省份申报活动的数量
+    public ArrayList<ActivityChars> getActivityCountByProvinceName(){
+        return activityDao.getActivityCountByProvinceName();
     }
 
 }

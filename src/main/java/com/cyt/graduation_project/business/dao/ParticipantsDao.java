@@ -41,7 +41,9 @@ public interface ParticipantsDao {
     @Update("update participants_info set review_status =#{reviewStatus} where user_id=#{userId} and activity_id=#{activityId}")
     boolean updateJoinState(@Param("userId") int userId, @Param("activityId") int activityId,@Param("reviewStatus") int reviewStatus);
 
-
+    //删除报名信息
+    @Delete("delete from participants_info where id =#{id}")
+    boolean deleteById(int id);
 
 
 }

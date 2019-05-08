@@ -219,6 +219,11 @@ public class ActivityController {
         return activityService.queryActivityInfoByUserId(page,pageSize,inputCondition);
     }*/
 
+    //查询对应的省份申报活动的数量
+    @RequestMapping("/getActivityCountByProvinceName")
+    public Object getActivityCountByProvinceName(){
+        return activityService.getActivityCountByProvinceName();
+    }
 
     //通过接收前台的地址id查询地址的name
     @Transactional

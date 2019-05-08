@@ -1,5 +1,6 @@
 package com.cyt.graduation_project.business.dao;
 
+import com.cyt.graduation_project.business.entry.activity.ActivityChars;
 import com.cyt.graduation_project.business.entry.activity.ActivityInfo;
 import org.apache.ibatis.annotations.*;
 
@@ -75,5 +76,9 @@ public interface ActivityDao {
     //更新支教活动信息状态
     @Update("update activity_info set review_status = #{reviewStatus} where activity_id =#{activityId}")
     public boolean updateActivityState(@Param("activityId") int activityId,@Param("reviewStatus")int reviewStatus);
+
+    //查询对应的省份申报活动的数量
+    @Select("select province_name,count(*) as num from activity_info Group by province_name")
+    public ArrayList<ActivityChars> getActivityCountByProvinceName();
 
 }

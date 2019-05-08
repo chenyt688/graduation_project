@@ -77,4 +77,10 @@ public class ParticipantsController {
     public boolean updateJoinState(int userId,int activityId,int reviewStatus){
         return participantsService.updateJoinState(userId,activityId,reviewStatus);
     }
+
+    //删除报名信息
+    @RequestMapping(value = "/deleteById",method = RequestMethod.PUT)
+    public Object deleteById(int id){
+        return participantsService.deleteById(id);
+    }
 }
