@@ -7,6 +7,7 @@ import com.cyt.graduation_project.business.service.MenuInfoService;
 import com.cyt.graduation_project.business.service.RoleMenuService;
 import com.cyt.graduation_project.business.service.RoleUserService;
 import com.cyt.graduation_project.business.service.UserService;
+import com.cyt.graduation_project.sys.util.SendMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -97,15 +98,16 @@ public class LoginController {
 
     /**
      * 向用户手机发送验证码
-     * @param user
+     * @param userPhone
      * @return
      */
 
     @RequestMapping("/yzmData")
     @ResponseBody
-    public Object yzmData(User user){
-        //SendMessage sendMessage = new SendMessage();                //调用方法向用户手机发送验证码
-        //String news = sendMessage.sendNews(user.getUserPhone());
+    public Object yzmData(String userPhone){
+        System.out.println(userPhone);
+        SendMessage sendMessage = new SendMessage();                //调用方法向用户手机发送验证码
+        //String news = sendMessage.sendNews(userPhone);
         return "6666";
     }
 

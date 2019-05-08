@@ -18,14 +18,15 @@ public class UpdatePasswordController {
     @ResponseBody
     public Object userRegister(User user){
         System.out.println(user);
-        String msg = "";
+        String msg = "S";
         User userInfo = userService.getUserInfoByPhone(user);
-        userInfo.setUserPassword(user.getUserPassword());
+
         if(userInfo != null){
+            userInfo.setUserPassword(user.getUserPassword());
             userService.updateUserPassword(userInfo);
-            msg = "密码修改成功！！！";
+            msg = "S";
         }else {
-            msg = "该用户不存在！！！";
+            msg = "F";
         }
         return msg;
     }

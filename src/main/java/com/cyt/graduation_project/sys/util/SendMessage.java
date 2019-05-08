@@ -8,7 +8,7 @@ package com.cyt.graduation_project.sys.util;
 public class SendMessage {
 	
 	//用户名
-	private static String Uid = "cyt6";
+	private static String Uid = "cyt888";
 	
 	//接口安全秘钥
 	private static String Key = "d41d8cd98f00b204e980";

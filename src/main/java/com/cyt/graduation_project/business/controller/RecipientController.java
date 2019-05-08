@@ -3,13 +3,19 @@ package com.cyt.graduation_project.business.controller;
 import com.cyt.graduation_project.business.entry.userinfo.RecipientInfo;
 import com.cyt.graduation_project.business.entry.userinfo.User;
 import com.cyt.graduation_project.business.service.RecipientService;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import sun.misc.BASE64Encoder;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 @RestController
 @CrossOrigin
@@ -28,22 +34,77 @@ public class RecipientController {
 
         return flag;
     }
+
+    //获取用户上传的图片保存到数据库
     public RecipientInfo getNewRecipientInfo(RecipientInfo recipientInfo, HttpServletRequest request){
         User user = (User) request.getSession().getAttribute("userInfo");
         String userFileName ="用户" + user.getUserAccount();
-        String path = "/UserInfo/" + userFileName ;
+        String path = "E://BD/UserInfo/" + userFileName ;
 
         recipientInfo.setUserId(user.getUserId());
-        //recipientInfo.setUserName(user.getUserName());
-        recipientInfo.setUserImgUrl(path+"/个人照片.jpg");
-        recipientInfo.setProvImgUrl(path+"/个人申请书.jpg");
-        recipientInfo.setSelfAccBookImgUrl(path+"/个人户口页.jpg");
-        recipientInfo.setVillageLetterImgUrl(path+"/村级证明.jpg");
-        recipientInfo.setTownProveImgUrl(path+"/乡级证明.jpg");
-        recipientInfo.setStudentListImgUrl(path+"/学籍表.jpg");
-        recipientInfo.setQrcodeUrl(path+"/二维码.jpg");
+        if(judgeImgIsExtence(path+"/个人照片.jpg")){
+            recipientInfo.setUserImgUrl(getImgToString(path+"/个人照片.jpg"));
+        }
+        if(judgeImgIsExtence(path+"/个人申请书.jpg")){
+            recipientInfo.setProvImgUrl(getImgToString(path+"/个人申请书.jpg"));
+        }
+        if(judgeImgIsExtence(path+"/个人户口页.jpg")){
+            recipientInfo.setSelfAccBookImgUrl(getImgToString(path+"/个人户口页.jpg"));
+        }
+        if(judgeImgIsExtence(path+"/村级证明.jpg")){
+            recipientInfo.setVillageLetterImgUrl(getImgToString(path+"/村级证明.jpg"));
+        }
+        if(judgeImgIsExtence(path+"/乡级证明.jpg")){
+            recipientInfo.setTownProveImgUrl(getImgToString(path+"/乡级证明.jpg"));
+        }
+        if(judgeImgIsExtence(path+"/学籍表.jpg")){
+            recipientInfo.setStudentListImgUrl(getImgToString(path+"/学籍表.jpg"));
+        }
+        if(judgeImgIsExtence(path+"/二维码.jpg")){
+            recipientInfo.setQrcodeUrl(getImgToString(path+"/二维码.jpg"));
+        }
+
         return recipientInfo;
     }
+
+    //读取本地照片转码 将图片转换为字符
+    public  String getImgToString(String filePath){
+        BASE64Encoder encoder = new BASE64Encoder();         //通过base64 转化图片
+        String imgStr = "";
+        //获得输入流,将文件读到内存
+        FileInputStream in = null;
+        try {
+            in = new  FileInputStream(filePath);
+            int n=0;
+            //1024字节 ,相当于每次读取1kb
+            byte[] arr = new byte[in.available()];
+            //循环读取,读到末尾会返回-1
+            while((n=in.read(arr)) !=-1) {
+
+            }
+            imgStr = Base64.encodeBase64String(arr);  //将图片转换为字符格式
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        imgStr = "data:image/jpeg;base64," + imgStr;
+        return imgStr;
+
+    }
+
+    //判断上传的照片是否存在
+    public boolean judgeImgIsExtence(String path){
+        File file=new File(path);
+        if(file.exists()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+
 
     //查询用户是否已经申请
     public Object judgeIsExistence(int userId){
