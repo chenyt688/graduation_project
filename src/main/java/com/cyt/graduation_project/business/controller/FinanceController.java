@@ -34,7 +34,10 @@ public class FinanceController {
     //查询所有的财务信息
     @RequestMapping(value = "/queryFinanceInfo", method = RequestMethod.PUT)
     public Object queryFinanceInfo(int page, int pageSize, String condition){
-
+        System.out.println(page +  "  " +condition);
+        if(condition == null){
+            condition="";
+        }
         return financeService.queryFinanceInfo(page,pageSize,condition);
     }
 

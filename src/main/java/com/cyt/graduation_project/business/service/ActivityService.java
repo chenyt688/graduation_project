@@ -3,10 +3,9 @@ package com.cyt.graduation_project.business.service;
 import com.cyt.graduation_project.business.dao.ActivityDao;
 import com.cyt.graduation_project.business.entry.activity.ActivityInfo;
 import com.cyt.graduation_project.sys.util.PageUtil;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.ArrayList;
 
@@ -51,6 +50,11 @@ public class ActivityService {
 
     public boolean deleteActivityInfoById(int activityId){
         return activityDao.deleteActivityInfoById(activityId);
+    }
+
+    //管理员删除支教活动信息
+    public boolean deleteActivity(int activityId){
+        return activityDao.deleteActivity(activityId);
     }
 
     //通过用户id查找活动信息

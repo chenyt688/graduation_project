@@ -63,14 +63,14 @@ public class UserService {
     @Transactional
     public boolean editUserInfo(User user){
         User userInfoByPhone = userDao.getUserInfoByPhone(user.getUserPhone());
+
         User uesrInfoByAccount= userDao.getUserInfoByUserAccount(user);
 
-
-
         //修改后的账号、电话都不存在
-        if(userInfoByPhone==null && userInfoByPhone == null){
+        if(userInfoByPhone==null && uesrInfoByAccount == null){
             return userDao.editUserInfo(user);
         }
+
         //修改后的号码不存在 账号存在
         if(userInfoByPhone==null&& uesrInfoByAccount.getUserId()==user.getUserId()){
             return userDao.editUserInfo(user);

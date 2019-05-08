@@ -181,12 +181,21 @@ public class ActivityController {
 
     //通过活动id删除支教活动信息（未审核之前可以删除 0表示未审核）
     @RequestMapping(value = "/deleteActivityInfoById", method = RequestMethod.PUT)
-    public Object deleteActivityInfoById(int activityId){
-        System.out.println(activityId);
+    public Object deleteActivityInfoById(int activityId,HttpServletRequest request){
+        User user = (User) request.getSession().getAttribute("userInfo");
         String flag = "F";
-        if(activityService.deleteActivityInfoById(activityId)){
-            flag = "S";
+
+        if(user != null && user.getRoleId() == 2){
+            if(activityService.deleteActivity(activityId)){
+                flag = "S";
+            }
+        }else {
+            if(activityService.deleteActivityInfoById(activityId)){
+                flag = "S";
+            }
         }
+
+
         return flag;
     }
 
@@ -230,31 +239,31 @@ public class ActivityController {
         String townName = addressService.getTownNameById(position.getTownId());
         String villageName = addressService.getVillageNameById(position.getVillageId());
         if(provinceName == null){
-            position.setProvinceName(" ");
+            position.setProvinceName("");
         }else {
             position.setProvinceName(provinceName);
         }
 
         if(cityName == null){
-            position.setCityName(" ");
+            position.setCityName("");
         }else {
             position.setCityName(cityName);
         }
 
         if(countyName == null){
-            position.setCountyName(" ");
+            position.setCountyName("");
         }else {
             position.setCountyName(countyName);
         }
 
         if(townName == null){
-            position.setTownName(" ");
+            position.setTownName("");
         }else {
             position.setTownName(townName);
         }
 
         if(villageName == null){
-            position.setVillageName(" ");
+            position.setVillageName("");
         }else {
             position.setVillageName(villageName);
         }

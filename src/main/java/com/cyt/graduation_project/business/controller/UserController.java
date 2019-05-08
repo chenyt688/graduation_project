@@ -4,6 +4,7 @@ import com.cyt.graduation_project.business.entry.position.Position;
 import com.cyt.graduation_project.business.entry.userinfo.User;
 import com.cyt.graduation_project.business.service.AddressService;
 import com.cyt.graduation_project.business.service.UserService;
+import com.cyt.graduation_project.sys.util.AddressUtil;
 import com.cyt.graduation_project.sys.util.DateFormatUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -114,7 +115,7 @@ public class UserController {
         if(user.getUserPassword() == null || user.getUserPassword() == ""){
             user.setUserPassword("123456");
         }
-
+        //前台接收的地址id 查询name
         user = getUserLastAddress(user,speAdd);
         //user.setUserAddress(user.getUserAddress()+speAdd);
         if(opeType.equals("新增用户")){
@@ -131,7 +132,45 @@ public class UserController {
     }
 
     public User getUserLastAddress(User user,String speAdd){
-        String[] add = new String[5];
+        String add[] = user.getUserAddress().split("-"); //将前台的数据按-切割
+        Position position = (Position) AddressUtil.returnAddress(add);
+        String provinceName = addressService.getProvinceNameById(position.getProvinceId());
+        String cityName = addressService.getCityNameById(position.getCityId());
+        String countyName = addressService.getCountyNameById(position.getCountyId());
+        String townName = addressService.getTownNameById(position.getTownId());
+        String villageName = addressService.getVillageNameById(position.getVillageId());
+        if(provinceName == null){
+            position.setProvinceName("");
+        }else {
+            position.setProvinceName(provinceName);
+        }
+
+        if(cityName == null){
+            position.setCityName("");
+        }else {
+            position.setCityName(cityName);
+        }
+
+        if(countyName == null){
+            position.setCountyName("");
+        }else {
+            position.setCountyName(countyName);
+        }
+
+        if(townName == null){
+            position.setTownName("");
+        }else {
+            position.setTownName(townName);
+        }
+
+        if(villageName == null){
+            position.setVillageName("");
+        }else {
+            position.setVillageName(villageName);
+        }
+        user.setUserAddress(position.getProvinceName()+position.getCityName()
+                +position.getCountyName()+position.getTownName()+position.getVillageName()+speAdd);
+        /*String[] add = new String[5];
         boolean flag = true;
         if(!user.getUserAddress().equals("----")&&!user.getUserAddress().contains("undefined")){
             add = user.getUserAddress().split("-");
@@ -157,7 +196,7 @@ public class UserController {
                     +position.getCountyName()+position.getTownName()+position.getVillageName()+speAdd);
         }else {
             user.setUserAddress(" ");
-        }
+        }*/
 
         return user;
     }

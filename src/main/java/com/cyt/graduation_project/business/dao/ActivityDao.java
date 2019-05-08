@@ -35,6 +35,10 @@ public interface ActivityDao {
     @Delete("delete from activity_info where review_status = 0 and activity_id = #{activityId}")
     boolean deleteActivityInfoById(int activityId);
 
+    //管理员删除支教活动信息
+    @Delete("delete from activity_info where  activity_id = #{activityId}")
+    boolean deleteActivity(int activityId);
+
     //通过用户id查找活动信息
     @Select("select * from activity_info where user_id = #{userId} limit #{startIndex},#{pageSize}")
     ArrayList<ActivityInfo> queryActivityInfoByUserId(@Param("startIndex") int startIndex, @Param("pageSize") int pageSize, @Param("userId") int userId);
