@@ -12,7 +12,7 @@ public class RecipientInfo {
     private String startTime;
     private String endTime;
     private String familyStatus;        //家庭状况
-    private String provImgUrl;          //个人申请书
+    private String proveImgUrl;          //个人申请书
     private String selfAccBookImgUrl;   //个人户口页
     private String villageLetterImgUrl; //村级证明信
     private String townProveImgUrl;     //乡级证明
@@ -21,7 +21,7 @@ public class RecipientInfo {
     private String reviewStatus;        //1表示报名 2表示审核成功  3表示审核失败
     private int delFlag;
 
-    public RecipientInfo(int recipientId, int userId, String userName, String userIdCard, String userPhone, String userImgUrl, String applicationTime, String passTime, String startTime, String endTime, String familyStatus, String provImgUrl, String selfAccBookImgUrl, String villageLetterImgUrl, String townProveImgUrl, String studentListImgUrl, String qrcodeUrl, String reviewStatus, int delFlag) {
+    public RecipientInfo(int recipientId, int userId, String userName, String userIdCard, String userPhone, String userImgUrl, String applicationTime, String passTime, String startTime, String endTime, String familyStatus, String proveImgUrl, String selfAccBookImgUrl, String villageLetterImgUrl, String townProveImgUrl, String studentListImgUrl, String qrcodeUrl, String reviewStatus, int delFlag) {
         this.recipientId = recipientId;
         this.userId = userId;
         this.userName = userName;
@@ -33,7 +33,7 @@ public class RecipientInfo {
         this.startTime = startTime;
         this.endTime = endTime;
         this.familyStatus = familyStatus;
-        this.provImgUrl = provImgUrl;
+        this.proveImgUrl = proveImgUrl;
         this.selfAccBookImgUrl = selfAccBookImgUrl;
         this.villageLetterImgUrl = villageLetterImgUrl;
         this.townProveImgUrl = townProveImgUrl;
@@ -131,12 +131,12 @@ public class RecipientInfo {
         this.familyStatus = familyStatus;
     }
 
-    public String getProvImgUrl() {
-        return provImgUrl;
+    public String getProveImgUrl() {
+        return proveImgUrl;
     }
 
-    public void setProvImgUrl(String provImgUrl) {
-        this.provImgUrl = provImgUrl;
+    public void setProveImgUrl(String provImgUrl) {
+        this.proveImgUrl = provImgUrl;
     }
 
     public String getSelfAccBookImgUrl() {

@@ -46,7 +46,7 @@ public class RecipientController {
             recipientInfo.setUserImgUrl(getImgToString(path+"/个人照片.jpg"));
         }
         if(judgeImgIsExtence(path+"/个人申请书.jpg")){
-            recipientInfo.setProvImgUrl(getImgToString(path+"/个人申请书.jpg"));
+            recipientInfo.setProveImgUrl(getImgToString(path+"/个人申请书.jpg"));
         }
         if(judgeImgIsExtence(path+"/个人户口页.jpg")){
             recipientInfo.setSelfAccBookImgUrl(getImgToString(path+"/个人户口页.jpg"));
@@ -83,6 +83,7 @@ public class RecipientController {
 
             }
             imgStr = Base64.encodeBase64String(arr);  //将图片转换为字符格式
+            in.close();
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -90,6 +91,7 @@ public class RecipientController {
             e.printStackTrace();
         }
         imgStr = "data:image/jpeg;base64," + imgStr;
+
         return imgStr;
 
     }
@@ -156,6 +158,7 @@ public class RecipientController {
     //通过申请资助id查找信息
     @RequestMapping(value = "/queryRecipientInfoByRecipientId",method = RequestMethod.PUT)
     public Object queryRecipientInfoByRecipientId(int recipientId){
+        System.out.println(recipientId);
         return recipientService.queryRecipientInfoByRecipientId(recipientId);
     }
 }

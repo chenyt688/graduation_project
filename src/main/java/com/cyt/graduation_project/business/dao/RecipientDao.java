@@ -11,7 +11,7 @@ public interface RecipientDao {
     @Insert("insert into recipient_info(user_id,user_name,user_id_card,user_phone,user_img_url,family_status," +
             "prove_img_url,self_acc_book_img_url,village_letter_img_url,town_prove_img_url,student_list_img_url" +
             ",qrcode_url,review_status,del_flag) value(#{userId},#{userName},#{userIdCard},#{userPhone},#{userImgUrl}," +
-            "#{familyStatus},#{provImgUrl},#{selfAccBookImgUrl},#{villageLetterImgUrl},#{townProveImgUrl}," +
+            "#{familyStatus},#{proveImgUrl},#{selfAccBookImgUrl},#{villageLetterImgUrl},#{townProveImgUrl}," +
             "#{studentListImgUrl},#{qrcodeUrl},1,1) ")
     boolean inserRecipientInfo(RecipientInfo recipientInfo);
 
