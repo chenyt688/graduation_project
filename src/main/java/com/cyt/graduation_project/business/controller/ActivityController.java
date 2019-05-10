@@ -210,7 +210,12 @@ public class ActivityController {
     @RequestMapping("/queryActivityNumByUserLoging")
     public int queryActivityNumByUserLoging(HttpServletRequest request){
         User user = (User) request.getSession().getAttribute("userInfo");
-        return activityService.queryActivityNumByUserLoging(user.getUserId());
+        if(user != null){
+            return activityService.queryActivityNumByUserLoging(user.getUserId());
+        }else{
+            return 0;
+        }
+
     }
 
     /*//通过用户id查找活动信息
