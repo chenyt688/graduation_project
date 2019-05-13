@@ -13,6 +13,11 @@ public interface ResumeDao {
     @Select("select * from user_resume where user_id = #{userId}")
     UserResume getUserResumeByUserId(User User);
 
+
+    //通过用户id获取相应的简历
+    @Select("select * from user_resume where user_id = #{userId}")
+    UserResume getUserResumeInfoByUserId(int userId);
+
     //查询所有的简历信息
     @Select("select * from user_resume where del_flag = 1")
     ArrayList<UserResume> getAllUserResume();

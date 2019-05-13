@@ -21,11 +21,11 @@
         <result column="user_registration_time" property="userRegistrationTime"/>
         <result column="del_flag" property="delFlag"/>
     </resultMap>
-
+<!--left join user_role as ur on u.user_id = ur.user_id-->
     <!--根据用户的账号密码和角色查询用户信息-->
     <select id="getUserInfo" resultMap="userMap">
-        select * from userInfo as u left join user_role as ur on u.user_id = ur.user_id
-        where u.user_account = #{userAccount} and u.user_password = #{userPassword} and ur.role_id = #{roleId}
+        select * from userInfo as u
+        where u.user_account = #{userAccount} and u.user_password = #{userPassword} and u.role_id = #{roleId}
     </select>
     
     <!--根据用户电话号码查询用户信息-->

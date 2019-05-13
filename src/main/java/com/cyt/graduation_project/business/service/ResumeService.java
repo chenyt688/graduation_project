@@ -19,6 +19,12 @@ public class ResumeService {
     public UserResume getUserResumeByUserId(User user){
         return resumeDao.getUserResumeByUserId(user);
     }
+    //通过用户id获取相应的简历
+
+    public UserResume getUserResumeInfoByUserId(int  userId){
+        return resumeDao.getUserResumeInfoByUserId(userId);
+    }
+
 
     //查询所有的简历信息
 

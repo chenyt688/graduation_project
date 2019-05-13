@@ -6,6 +6,7 @@ import com.cyt.graduation_project.business.service.ResumeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +28,15 @@ public class ResumeController {
             }
 
         }
+
+        return resume;
+    }
+
+
+    //通过用户id获取相应的简历
+    @RequestMapping(value = "/getUserResumeInfoByUserId", method = RequestMethod.PUT)
+    public UserResume getUserResumeInfoByUserId(int userId){
+        UserResume resume  = resumeService.getUserResumeInfoByUserId(userId);
 
         return resume;
     }

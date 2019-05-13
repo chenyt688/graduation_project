@@ -107,8 +107,8 @@ public class LoginController {
     public Object yzmData(String userPhone){
         System.out.println(userPhone);
         SendMessage sendMessage = new SendMessage();                //调用方法向用户手机发送验证码
-        //String news = sendMessage.sendNews(userPhone);
-        return "6666";
+        String news = sendMessage.sendNews(userPhone);
+        return news;
     }
 
     /**
