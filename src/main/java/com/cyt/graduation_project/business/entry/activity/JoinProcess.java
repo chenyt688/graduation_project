@@ -4,6 +4,9 @@ public class JoinProcess {
     private int state;
     private String activityTopic;
 
+    public JoinProcess() {
+    }
+
     public JoinProcess(int state, String activityTopic) {
         this.state = state;
         this.activityTopic = activityTopic;

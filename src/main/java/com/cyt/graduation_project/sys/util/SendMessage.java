@@ -2,8 +2,8 @@ package com.cyt.graduation_project.sys.util;
 
 /**
  * @Title: http://www.smschinese.cn/api.shtml
- * @date 2011-3-22
- * @version V1.2  
+ * @date 2019-3-22
+ * @version
  */
 public class SendMessage {
 	

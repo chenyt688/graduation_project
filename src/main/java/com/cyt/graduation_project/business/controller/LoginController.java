@@ -108,7 +108,8 @@ public class LoginController {
         System.out.println(userPhone);
         SendMessage sendMessage = new SendMessage();                //调用方法向用户手机发送验证码
         String news = sendMessage.sendNews(userPhone);
-        return news;
+        //return news;
+        return "6666";
     }
 
     /**

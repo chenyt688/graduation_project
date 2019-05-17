@@ -158,7 +158,7 @@ public class RecipientController {
     //通过申请资助id查找信息
     @RequestMapping(value = "/queryRecipientInfoByRecipientId",method = RequestMethod.PUT)
     public Object queryRecipientInfoByRecipientId(int recipientId){
-        System.out.println(recipientId);
+        //System.out.println(recipientId);
         return recipientService.queryRecipientInfoByRecipientId(recipientId);
     }
 }

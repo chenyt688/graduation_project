@@ -25,7 +25,7 @@ public interface FinanceDao {
     @Select("select * from financeinfo where finance_type like CONCAT(CONCAT('%', #{condition}), '%') or " +
             "finance_about like CONCAT(CONCAT('%', #{condition}), '%') or " +
             "finance_channel like CONCAT(CONCAT('%', #{condition}), '%') or " +
-            "user_name like CONCAT(CONCAT('%', #{condition}), '%') limit #{startIndex},#{pageSize}")
+            "user_name like CONCAT(CONCAT('%', #{condition}), '%') order by finance_time DESC limit #{startIndex},#{pageSize} ")
     ArrayList<Finance> queryFinanceInfo(@Param("startIndex") int startIndex, @Param("pageSize") int pageSize,
                                         @Param("condition") String condition);
 

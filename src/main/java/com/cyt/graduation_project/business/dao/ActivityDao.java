@@ -10,12 +10,12 @@ import java.util.ArrayList;
 public interface ActivityDao {
 
     //查询所有的支教活动信息
-    @Select("select * from activity_info where del_flag = 1 limit #{startIndex},#{pageSize}")
+    @Select("select * from activity_info where del_flag = 1 order by application_time DESC limit #{startIndex},#{pageSize} ")
     ArrayList<ActivityInfo> queryAllActivityInfo(@Param("startIndex") int startIndex, @Param("pageSize") int pageSize);
 
 
-    //查询所有已经的支教活动信息
-    @Select("select * from activity_info where del_flag = 1 and review_status = 2 limit #{startIndex},#{pageSize}")
+    //查询所有已经发布的支教活动信息
+    @Select("select * from activity_info where del_flag = 1 and review_status = 2 order by activity_end_time DESC limit #{startIndex},#{pageSize} ")
     ArrayList<ActivityInfo> queryAllActivityInfoPublished(@Param("startIndex") int startIndex, @Param("pageSize") int pageSize);
 
     //获取数量
