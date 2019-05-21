@@ -27,10 +27,15 @@ public class RecipientController {
     public Object inserRecipientInfo(RecipientInfo recipientInfo,HttpServletRequest request){
         String flag = "F";
         recipientInfo = getNewRecipientInfo(recipientInfo,request);
-        if(recipientService.judgeIsExistence(recipientInfo.getUserId())<1){    //用户没申请
-            recipientService.inserRecipientInfo(recipientInfo);
-            flag = "S";
+        if(recipientInfo.getUserImgUrl()=="F"){     //材料不齐全
+            return "F2";
+        }else {
+            if(recipientService.judgeIsExistence(recipientInfo.getUserId())<1){    //用户没申请
+                recipientService.inserRecipientInfo(recipientInfo);
+                flag = "S";
+            }
         }
+
 
         return flag;
     }
@@ -40,31 +45,48 @@ public class RecipientController {
         User user = (User) request.getSession().getAttribute("userInfo");
         String userFileName ="用户" + user.getUserAccount();
         String path = "E://BD/UserInfo/" + userFileName ;
-
+        boolean flag = true;
         recipientInfo.setUserId(user.getUserId());
         if(judgeImgIsExtence(path+"/个人照片.jpg")){
             recipientInfo.setUserImgUrl(getImgToString(path+"/个人照片.jpg"));
+        }else {
+            flag =false;
         }
         if(judgeImgIsExtence(path+"/个人申请书.jpg")){
             recipientInfo.setProveImgUrl(getImgToString(path+"/个人申请书.jpg"));
+        }else {
+            flag =false;
         }
         if(judgeImgIsExtence(path+"/个人户口页.jpg")){
             recipientInfo.setSelfAccBookImgUrl(getImgToString(path+"/个人户口页.jpg"));
+        }else {
+            flag =false;
         }
         if(judgeImgIsExtence(path+"/村级证明.jpg")){
             recipientInfo.setVillageLetterImgUrl(getImgToString(path+"/村级证明.jpg"));
+        }else {
+            flag =false;
         }
         if(judgeImgIsExtence(path+"/乡级证明.jpg")){
             recipientInfo.setTownProveImgUrl(getImgToString(path+"/乡级证明.jpg"));
+        }else {
+            flag =false;
         }
         if(judgeImgIsExtence(path+"/学籍表.jpg")){
             recipientInfo.setStudentListImgUrl(getImgToString(path+"/学籍表.jpg"));
+        }else {
+            flag =false;
         }
         if(judgeImgIsExtence(path+"/二维码.jpg")){
             recipientInfo.setQrcodeUrl(getImgToString(path+"/二维码.jpg"));
+        }else {
+            flag =false;
         }
-
+        if(flag == false) {
+            recipientInfo.setUserImgUrl("F");
+        }
         return recipientInfo;
+
     }
 
     //读取本地照片转码 将图片转换为字符

@@ -13,6 +13,10 @@ public interface UserDao {
     //根据用户电话号码查询用户信息
     User getUserInfoByPhone(@Param("userPhone") String userPhone);
 
+    //根据用户电话号码查询用户信息
+    @Select("select count(*) from userInfo where user_phone = #{userPhone}")
+    int getUserCountByPhone(@Param("userPhone") String userPhone);
+
     //用户通过电话号码注册信息,注册时间自动生成
     @Insert("insert into userInfo(user_account,user_phone,role_id,del_flag) values(#{userAccount},#{userPhone},#{roleId},#{delFlag})")
     void registerUser(User user);

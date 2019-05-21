@@ -80,7 +80,9 @@ public class UserService {
             return userDao.editUserInfo(user);
         }
         //判断账号和电话是否被注册
-
+        if(user.getUserAddress()==null||user.getUserAddress().equals("")){
+            user.setUserAddress(userInfoByPhone.getUserAddress());
+        }
         if(userInfoByPhone.getUserId() == uesrInfoByAccount.getUserId() && uesrInfoByAccount.getUserId()==user.getUserId()){
             return userDao.editUserInfo(user);
         }
@@ -93,14 +95,16 @@ public class UserService {
      */
     @Transactional
     public boolean addUserInfo(User user){
-
-        int account = userDao.queryAccount(user);
-        if(account==0){    //用户不存在
-            if(user.getUserAccount() == null || user.getUserAccount() == ""){
-                user.setUserAccount(GenerateInfo.getAccount());
+        if(userDao.getUserCountByPhone(user.getUserPhone())== 0){
+            int account = userDao.queryAccount(user);
+            if(account==0){    //用户不存在
+                if(user.getUserAccount() == null || user.getUserAccount() == ""){
+                    user.setUserAccount(GenerateInfo.getAccount());
+                }
+                return userDao.addUserInfo(user);
             }
-            return userDao.addUserInfo(user);
         }
+
         return false;
     }
 

@@ -119,7 +119,9 @@ public class UserController {
         user = getUserLastAddress(user,speAdd);
         //user.setUserAddress(user.getUserAddress()+speAdd);
         if(opeType.equals("新增用户")){
+
             flag = userService.addUserInfo(user);
+
         }else {             //修改用户
             flag = userService.editUserInfo(user);
         }
