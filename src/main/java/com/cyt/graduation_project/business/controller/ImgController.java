@@ -1,6 +1,10 @@
 package com.cyt.graduation_project.business.controller;
 
+import com.cyt.graduation_project.business.entry.relation.Picture;
 import com.cyt.graduation_project.business.entry.userinfo.User;
+import com.cyt.graduation_project.business.service.PictureService;
+import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +20,8 @@ import java.io.IOException;
 @RestController
 @CrossOrigin
 public class ImgController {
+    @Autowired
+    private PictureService pictureService;
     //图片上传
     @RequestMapping("/uploadImg")
     public void uploadImg(@RequestParam("picture") MultipartFile imgFile, HttpServletRequest request){
@@ -42,4 +48,28 @@ public class ImgController {
         }
 
     }
+
+    @RequestMapping("/uploadPicture")
+    public void uploadPicture(@RequestParam("picture") MultipartFile imgFile, HttpServletRequest request) throws IOException {
+        User user = (User) request.getSession().getAttribute("userInfo");
+        String imgStr = "";
+        Picture picture = new Picture();
+        imgStr = Base64.encodeBase64String(imgFile.getBytes());  //将图片转换为字符格式
+        imgStr = "data:image/jpeg;base64," + imgStr;
+        if(user != null){
+            picture.setImg(imgStr);
+            picture.setUserId(user.getUserId());
+            picture.setImgName(imgFile.getOriginalFilename());
+            if(pictureService.queryPictureByImage(picture)==0){ //避免上传相同的图片
+                pictureService.uploadPicture(picture);
+            }
+
+        }
+    }
+
+    @RequestMapping("/queryAllPicture")
+    public Object queryAllPicture(){
+        return pictureService.queryAllPicture();
+    }
+
 }
