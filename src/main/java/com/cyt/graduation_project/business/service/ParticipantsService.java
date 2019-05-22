@@ -34,11 +34,15 @@ public class ParticipantsService {
 
     //查看最近用户报名的状况
     @Transactional
-    public JoinProcess queryActivityInfoByUserId(int userId){
-       ParticipantsInfo participantsInfo  = participantsDao.queryJoinInfoByUserId(userId);
-       ActivityInfo activityInfo=  activityDao.queryActivityInfoById(participantsInfo.getActivityId());
-       JoinProcess joinProcess = new JoinProcess(participantsInfo.getReviewStatus(),activityInfo.getTopic());
-       return joinProcess;
+    public ArrayList<JoinProcess> queryActivityInfoByUserId(int userId){
+       ArrayList<ParticipantsInfo> participantsInfoList  = participantsDao.queryJoinInfoByUserId(userId);
+       ArrayList<JoinProcess> joinProcessArrayList = new ArrayList<JoinProcess>();
+       for(ParticipantsInfo participantsInfo:participantsInfoList){
+           ActivityInfo activityInfo=  activityDao.queryActivityInfoById(participantsInfo.getActivityId());
+           JoinProcess joinProcess = new JoinProcess(participantsInfo.getReviewStatus(),activityInfo.getTopic());
+           joinProcessArrayList.add(joinProcess);
+       }
+       return joinProcessArrayList;
     }
 
     //登录用户查看自己申请的活动报名状况

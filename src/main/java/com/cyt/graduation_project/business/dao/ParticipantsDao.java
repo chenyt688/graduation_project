@@ -20,8 +20,8 @@ public interface ParticipantsDao {
 
 
     //查看最近用户报名的状况
-    @Select("select * from participants_info where user_id=#{userId} order by apply_time DESC limit 1")
-    ParticipantsInfo queryJoinInfoByUserId(int userId);
+    @Select("select * from participants_info where user_id=#{userId} order by apply_time")
+    ArrayList<ParticipantsInfo> queryJoinInfoByUserId(int userId);
 
 
 

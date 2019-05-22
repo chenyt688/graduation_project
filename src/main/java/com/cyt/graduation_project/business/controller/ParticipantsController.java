@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 
 @RestController
 @CrossOrigin
@@ -43,9 +44,12 @@ public class ParticipantsController {
     @RequestMapping("/queryJoinByUserId")
     public Object queryJoinByUserId(HttpServletRequest request){
         User user = (User) request.getSession().getAttribute("userInfo");
-        JoinProcess joinProcess = participantsService.queryActivityInfoByUserId(user.getUserId());
-        System.out.println(joinProcess);
-        return  joinProcess;
+        ArrayList<JoinProcess> joinProcessList = participantsService.queryActivityInfoByUserId(user.getUserId());
+        if(joinProcessList==null || joinProcessList.size() == 0){
+            return "F";
+        }
+        return  joinProcessList;
+
     }
 
 
