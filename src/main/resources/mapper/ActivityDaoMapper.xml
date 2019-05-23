@@ -39,7 +39,7 @@
       activity_end_time=#{activityEndTime},topic=#{topic},
       img_url=#{imgUrl},demand_num=#{demandNum},organization_profiles=#{organizationProfiles},work_content=#{workContent},
       treatment_gain=#{treatmentGain},conditions=#{conditions},contact_info=#{contactInfo},
-      review_status=#{reviewStatus},province_name=#{provinceName}
+      review_status=#{reviewStatus},province_name=#{provinceName},review_status=0
       where activity_id = #{activityId}
     </update>
 

@@ -81,4 +81,8 @@ public interface ActivityDao {
     @Select("select province_name,count(*) as num from activity_info Group by province_name")
     public ArrayList<ActivityChars> getActivityCountByProvinceName();
 
+
+    @Select("select COUNT(*) from activity_info where activity_id = #{activityId} and del_flag = 1 and review_status = 2")
+    int queryActivityState(@Param("activityId") int activityId);
+
 }

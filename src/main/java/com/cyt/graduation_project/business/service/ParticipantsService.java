@@ -23,7 +23,12 @@ public class ParticipantsService {
 
     //新增用户报名数据
     public boolean insertParticipant(int userId,int activityId){
-        return participantsDao.insertParticipant(userId,activityId);
+        if(activityDao.queryActivityState(activityId) ==1){
+            return participantsDao.insertParticipant(userId,activityId);
+        }else {
+            return false;
+        }
+
     }
 
 
@@ -39,8 +44,13 @@ public class ParticipantsService {
        ArrayList<JoinProcess> joinProcessArrayList = new ArrayList<JoinProcess>();
        for(ParticipantsInfo participantsInfo:participantsInfoList){
            ActivityInfo activityInfo=  activityDao.queryActivityInfoById(participantsInfo.getActivityId());
-           JoinProcess joinProcess = new JoinProcess(participantsInfo.getReviewStatus(),activityInfo.getTopic());
-           joinProcessArrayList.add(joinProcess);
+           if(activityInfo != null){
+               JoinProcess joinProcess = new JoinProcess(participantsInfo.getReviewStatus(),activityInfo.getTopic());
+               joinProcessArrayList.add(joinProcess);
+           }else {
+               break;
+           }
+
        }
        return joinProcessArrayList;
     }

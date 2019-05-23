@@ -22,7 +22,11 @@ public class ParticipantsController {
     @RequestMapping(value = "/insertParticipant",method = RequestMethod.PUT)
     public Object insertParticipant(int userId,int activityId,HttpServletRequest request){
         User user = (User) request.getSession().getAttribute("userInfo");
-        return participantsService.insertParticipant(user.getUserId(),activityId);
+        if(participantsService.insertParticipant(user.getUserId(),activityId)){
+            return "S";
+        }else {
+            return "F";
+        }
     }
 
 
