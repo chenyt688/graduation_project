@@ -18,7 +18,7 @@ public interface UserDao {
     int getUserCountByPhone(@Param("userPhone") String userPhone);
 
     //用户通过电话号码注册信息,注册时间自动生成
-    @Insert("insert into userInfo(user_account,user_phone,role_id,del_flag) values(#{userAccount},#{userPhone},#{roleId},#{delFlag})")
+    @Insert("insert into userInfo(user_account,user_password,user_phone,role_id,del_flag) values(#{userAccount},#{userPassword},#{userPhone},#{roleId},#{delFlag})")
     void registerUser(User user);
 
     // 判断用户账号是否已经存在或被使用

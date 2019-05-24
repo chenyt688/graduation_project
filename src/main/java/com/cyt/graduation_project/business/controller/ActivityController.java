@@ -225,9 +225,12 @@ public class ActivityController {
     }*/
 
     //查询对应的省份申报活动的数量
-    @RequestMapping("/getActivityCountByProvinceName")
-    public Object getActivityCountByProvinceName(){
-        return activityService.getActivityCountByProvinceName();
+    @RequestMapping(value = "/getActivityCountByProvinceName", method = RequestMethod.PUT)
+    public Object getActivityCountByProvinceName(String year){
+        if(year != null && year != ""){
+            year = (Integer.parseInt(year.substring(0,4)) + 1)+"";
+        }
+        return activityService.getActivityCountByProvinceName(year);
     }
 
     //通过接收前台的地址id查询地址的name
@@ -291,5 +294,12 @@ public class ActivityController {
         activityInfo.setActivityAddress(lastAdress);
 
         return activityInfo;
+    }
+
+
+    @RequestMapping("/AnalysisData")
+    public  Object getProvinctNumByYear(){
+        return activityService.getProvinctNumByYear();
+
     }
 }

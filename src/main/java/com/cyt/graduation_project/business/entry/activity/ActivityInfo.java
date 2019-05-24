@@ -16,7 +16,7 @@ public class ActivityInfo {
     private String treatmentGain;       //收获待遇
     private String conditions;          //报名条件
     private String contactInfo;
-    private int reviewStatus;           //审核状态  0表示待审核  1表示已审核 2表示发布 3表示审核不通过
+    private int reviewStatus;           //审核状态  0表示待审核  1表示已审核 2表示发布 3表示审核不通过 4表示结束
     private int delFlag;
     private String provinceName;
 

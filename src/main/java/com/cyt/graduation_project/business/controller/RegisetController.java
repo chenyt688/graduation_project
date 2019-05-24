@@ -20,7 +20,9 @@ public class RegisetController {
         String msg = "";
         User userInfo = userService.getUserInfoByPhone(user);
         if(userInfo != null){
+
             msg = "该号码已经注册！！！";
+
         }else {
             user.setDelFlag(1);
             user.setRoleId(1);

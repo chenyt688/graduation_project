@@ -59,7 +59,8 @@ public interface AddressDao {
     String getVillageNameById(long villageId);
 
 
-
+    @Select("select province_name from j_position_province ")
+    ArrayList<Province> getAllProvinceName();
 
 
 

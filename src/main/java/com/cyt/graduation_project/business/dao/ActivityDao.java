@@ -14,16 +14,16 @@ public interface ActivityDao {
     ArrayList<ActivityInfo> queryAllActivityInfo(@Param("startIndex") int startIndex, @Param("pageSize") int pageSize);
 
 
-    //查询所有已经发布的支教活动信息
-    @Select("select * from activity_info where del_flag = 1 and review_status = 2 order by activity_end_time DESC limit #{startIndex},#{pageSize} ")
+    //查询所有已经发布的支教活动信息      and sysdate() < activity_end_time
+    @Select("select * from activity_info where del_flag = 1 and review_status in (2,4) order by activity_end_time DESC limit #{startIndex},#{pageSize} ")
     ArrayList<ActivityInfo> queryAllActivityInfoPublished(@Param("startIndex") int startIndex, @Param("pageSize") int pageSize);
 
     //获取数量
     @Select("select COUNT(*) from activity_info where del_flag = 1")
     int getActivityAccount();
 
-    //获取已发布活动的数量
-    @Select("select COUNT(*) from activity_info where del_flag = 1 and review_status = 2")
+    //获取已发布活动的数量             and sysdate() < activity_end_time
+    @Select("select COUNT(*) from activity_info where del_flag = 1 and review_status in (2,4)")
     int getActivityAccountPublished();
 
     //新增支教活动信息
@@ -78,11 +78,23 @@ public interface ActivityDao {
     public boolean updateActivityState(@Param("activityId") int activityId,@Param("reviewStatus")int reviewStatus);
 
     //查询对应的省份申报活动的数量
-    @Select("select province_name,count(*) as num from activity_info Group by province_name")
-    public ArrayList<ActivityChars> getActivityCountByProvinceName();
+    @Select("select province_name,count(*) as num from activity_info where  application_time like CONCAT(CONCAT('%', #{year}), '%') and review_status in (2,4) Group by province_name")
+    public ArrayList<ActivityChars> getActivityCountByProvinceName(@Param("year") String year);
 
 
     @Select("select COUNT(*) from activity_info where activity_id = #{activityId} and del_flag = 1 and review_status = 2")
     int queryActivityState(@Param("activityId") int activityId);
+
+    //根据年份获取每个省发布的支教志愿者活动的数量
+    @Select("select pp.province_name,count(ai.province_name) as num  from j_position_province as pp " +
+            "left join activity_info  as ai on ai.province_name=pp.province_name " +
+            "where application_time like CONCAT(CONCAT('%', #{year}), '%') Group by pp.province_name")
+    public ArrayList<ActivityChars> getProvinctNumByYear(@Param("year") String year);
+
+
+    //读取发布志愿者活动最早的年份
+    @Select("select application_time from activity_info  order by activity_end_time  ASC limit 1")
+    public String getYear();
+
 
 }

@@ -6,7 +6,6 @@ package com.cyt.graduation_project.sys.util;
  * @version
  */
 public class SendMessage {
-	
 	//用户名
 	private static String Uid = "jim982836261";
 	//private static String Uid = "cyt888";
@@ -19,25 +18,23 @@ public class SendMessage {
 	
 	//短信内容
 	private static String smsText = "";
-	
-	
 	public String sendNews(String smsMob) {
 		
 		HttpClientUtil client = HttpClientUtil.getInstance();
 		double yzm1=((Math.random()*9+1)*100000);
 		int yzm2= (int) yzm1;
 		String nums=String.valueOf(yzm2);
-		smsText = "支教系统登录验证码:"+ nums + ",请不要向他人透露该验证码";
-		/*int number = (int) ((Math.random()*9+1)*100000);
-		String num = number + "";*/
-		//smsText = smsText + num;
+		smsText = "支教系统验证码:"+ nums + ",请勿泄漏验证码！";
 		//UTF发送
-		int result = client.sendMsgUtf8(Uid, Key, smsText, smsMob);
-		if(result>0){
-			System.out.println("信息成功发送条数=="+result);
-		}else{
-			System.out.println(client.getErrorMsg(result));
-		}
+		client.sendMsgUtf8(Uid, Key, smsText, smsMob);
+
 		return nums+"";
+	}
+
+	public void sendNewAccounts(String smsMob,String userAccount,String password) {
+		HttpClientUtil client = HttpClientUtil.getInstance();
+		smsText = "尊敬的用户:"+ smsMob+ "，您成功注册支教网站，初始账号："+userAccount+",密码："+password+"。请勿泄漏！";
+		client.sendMsgUtf8(Uid, Key, smsText, smsMob);
+
 	}
 }

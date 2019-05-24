@@ -5,6 +5,7 @@ import com.cyt.graduation_project.business.dao.UserDao;
 import com.cyt.graduation_project.business.entry.userinfo.User;
 import com.cyt.graduation_project.sys.util.GenerateInfo;
 import com.cyt.graduation_project.sys.util.PageUtil;
+import com.cyt.graduation_project.sys.util.SendMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,10 +50,14 @@ public class UserService {
         if(user.getUserAccount() == null || user.getUserAccount() == ""){
             user.setUserAccount(GenerateInfo.getAccount());
         }
+        /*String number = (int)((Math.random()*9+1)*100000) +"";
+        user.setUserPassword(number);*/
         //插入用户数据
         userDao.registerUser(user);
         user = userDao.getUserInfoByPhone(user.getUserPhone());
         //用户与角色关联
+        SendMessage sendMessage = new SendMessage();                //调用方法向用户手机发送验证码
+        sendMessage.sendNewAccounts(user.getUserPhone(),user.getUserAccount(),user.getUserPassword());
         roleUserDao.insertUserRoleInfo(user);
     }
 

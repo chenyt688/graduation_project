@@ -48,7 +48,7 @@ public class ParticipantsService {
                JoinProcess joinProcess = new JoinProcess(participantsInfo.getReviewStatus(),activityInfo.getTopic());
                joinProcessArrayList.add(joinProcess);
            }else {
-               break;
+              continue;
            }
 
        }
