@@ -88,7 +88,7 @@ public interface ActivityDao {
     //根据年份获取每个省发布的支教志愿者活动的数量
     @Select("select pp.province_name,count(ai.province_name) as num  from j_position_province as pp " +
             "left join activity_info  as ai on ai.province_name=pp.province_name " +
-            "where application_time like CONCAT(CONCAT('%', #{year}), '%') Group by pp.province_name")
+            "where review_status in (2,4) and application_time like CONCAT(CONCAT('%', #{year}), '%') Group by pp.province_name")
     public ArrayList<ActivityChars> getProvinctNumByYear(@Param("year") String year);
 
 

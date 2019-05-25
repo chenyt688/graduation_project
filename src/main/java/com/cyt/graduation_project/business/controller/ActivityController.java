@@ -295,11 +295,15 @@ public class ActivityController {
 
         return activityInfo;
     }
+    //预测各省支教活动数量
+    @RequestMapping(value = "/AnalysisData",method = RequestMethod.PUT)
+    public  Object getProvinctNumByYear(String year){
+        //前台传到后台年份会少1
+         return activityService.getProvinctNumByYear(year);
 
-
-    @RequestMapping("/AnalysisData")
-    public  Object getProvinctNumByYear(){
-        return activityService.getProvinctNumByYear();
-
+    }
+    @RequestMapping(value = "/getYear")
+    public Object getYear(){
+        return activityService.getYear();
     }
 }

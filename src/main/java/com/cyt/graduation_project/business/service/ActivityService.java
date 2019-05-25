@@ -9,6 +9,7 @@ import com.cyt.graduation_project.business.entry.position.Province;
 import com.cyt.graduation_project.sys.util.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -128,16 +129,24 @@ public class ActivityService {
 
 
     //根据年份获取每个省发布的支教志愿者活动的数量
-    public ArrayList<AnalysisData> getProvinctNumByYear() {
+    @Transactional
+    public ArrayList<AnalysisData> getProvinctNumByYear(String yearLater) {
+
 
         //用于保存预测各个身份的值
-        ArrayList<AnalysisData> analysisDataArrayList = new ArrayList<AnalysisData>();
+        ArrayList<AnalysisData> analysisDataArrayList = new ArrayList<AnalysisData>(31);
         //获取发布活动的最早年份
         String year = activityDao.getYear();
         int yearStart = Integer.parseInt(year.substring(0, 4));
         //获取活动发布最晚年份
-        Calendar c = Calendar.getInstance();//可以对每个时间域单独修改
-        int yearLatest = c.get(Calendar.YEAR);
+        int yearLatest = 0;
+        if(yearLater != null && yearLater != ""){
+            yearLatest = (Integer.parseInt(yearLater.substring(0,4)));
+        }else {
+            Calendar c = Calendar.getInstance();//可以对每个时间域单独修改
+            yearLatest = c.get(Calendar.YEAR);
+        }
+
 
         //获取所有的省份
         ArrayList<Province> provinceArrayList = addressDao.getAllProvinceName();
@@ -151,36 +160,42 @@ public class ActivityService {
         int k = 0;
         double xishu = 0.5;
         for (Province p : provinceArrayList) {
-            for (ActivityChars ac : activityChars1) {
-                if (ac.getProvinceName().equals(p.getProvinceName())) {
-                    val1 = ac.getNum();
+            for (ActivityChars ac1 : activityChars1) {
+                if (ac1.getProvinceName().equals(p.getProvinceName())) {
+                    val1 = ac1.getNum();
                     break;
                 }
             }
-            for (ActivityChars ac : activityChars2) {
-                if (ac.getProvinceName().equals(p.getProvinceName())) {
-                    val2 = ac.getNum();
+            for (ActivityChars ac2 : activityChars2) {
+                if (ac2.getProvinceName().equals(p.getProvinceName())) {
+                    val2 = ac2.getNum();
                     break;
                 }
             }
-            for (ActivityChars ac : activityChars3) {
-                if (ac.getProvinceName().equals(p.getProvinceName())) {
-                    val3 = ac.getNum();
+            for (ActivityChars ac3 : activityChars3) {
+                if (ac3.getProvinceName().equals(p.getProvinceName())) {
+                    val3 = ac3.getNum();
                     break;
                 }
             }
-            double avg = (val1 + val2 + val3) / 3;
-            double lastVal = xishu * activityChars1.get(0).getNum() + avg * xishu;
+            double avg = (val1 + val2 + val3)/3.0;
+            double lastVal = xishu *val1 + avg * xishu;
             AnalysisData data = new AnalysisData();
             data.setProvinceName(p.getProvinceName());
             data.setNum(lastVal);
-            analysisDataArrayList.set(k, data);
+            analysisDataArrayList.add(k, data);
+            val1=0;
+            val2=0;
+            val3=0;
             k++;
         }
+        //System.out.println(analysisDataArrayList);
         int val4 = 0;
-        int j = 0;
+
         for(yearStart=yearStart+1;yearStart <= yearLatest;yearStart++){
+            //获取相应年份数据
             ArrayList<ActivityChars> activityChars4 = activityDao.getProvinctNumByYear(yearStart + "");
+            int j = 0;
             for (Province p : provinceArrayList) {
                 for (ActivityChars ac : activityChars4) {
                     if (ac.getProvinceName().equals(p.getProvinceName())) {
@@ -198,14 +213,19 @@ public class ActivityService {
                 }
 
                 double lastVal = xishu * val4 + d * xishu;
-                AnalysisData data = new AnalysisData();
-                data.setProvinceName(p.getProvinceName());
-                data.setNum(lastVal);
-                analysisDataArrayList.set(j, data);
+                analysisDataArrayList.get(j).setNum(lastVal);
+                analysisDataArrayList.get(j).setProvinceName(p.getProvinceName());
+                val4=0;
                 j++;
+
             }
         }
+        System.out.println(analysisDataArrayList);
         return analysisDataArrayList;
 
+    }
+
+    public String getYear(){
+        return activityDao.getYear().substring(0, 4);
     }
 }

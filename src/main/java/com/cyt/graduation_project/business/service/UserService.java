@@ -50,8 +50,8 @@ public class UserService {
         if(user.getUserAccount() == null || user.getUserAccount() == ""){
             user.setUserAccount(GenerateInfo.getAccount());
         }
-        /*String number = (int)((Math.random()*9+1)*100000) +"";
-        user.setUserPassword(number);*/
+        String number = (int)((Math.random()*9+1)*100000) +"";
+        user.setUserPassword(number);
         //插入用户数据
         userDao.registerUser(user);
         user = userDao.getUserInfoByPhone(user.getUserPhone());
