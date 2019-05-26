@@ -51,7 +51,6 @@
         select * from activity_info where
         activity_address like CONCAT(CONCAT('%', #{condition}), '%') or
         topic like CONCAT(CONCAT('%', #{condition}), '%') or
-        review_status like CONCAT(CONCAT('%', #{condition}), '%') or
         province_name like CONCAT(CONCAT('%', #{condition}), '%')
         and del_flag = 1
         limit #{startIndex},#{pageSize}
@@ -63,7 +62,7 @@
         activity_address like CONCAT(CONCAT('%', #{condition}), '%') or
         topic like CONCAT(CONCAT('%', #{condition}), '%') or
         province_name like CONCAT(CONCAT('%', #{condition}), '%'))
-        and review_status = 2 and  del_flag = 1
+        and review_status in(2,4) and  del_flag = 1
         limit #{startIndex},#{pageSize}
     </select>
 

@@ -13,8 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Iterator;
-import java.util.Map;
 
 @Service
 public class ActivityService {
@@ -189,9 +187,7 @@ public class ActivityService {
             val3=0;
             k++;
         }
-        //System.out.println(analysisDataArrayList);
         int val4 = 0;
-
         for(yearStart=yearStart+1;yearStart <= yearLatest;yearStart++){
             //获取相应年份数据
             ArrayList<ActivityChars> activityChars4 = activityDao.getProvinctNumByYear(yearStart + "");
@@ -202,7 +198,6 @@ public class ActivityService {
                         val4 = ac.getNum();
                         break;
                     }
-
                 }
                 double d =0;
                 for (AnalysisData data:analysisDataArrayList){
@@ -211,21 +206,26 @@ public class ActivityService {
                         break;
                     }
                 }
-
                 double lastVal = xishu * val4 + d * xishu;
                 analysisDataArrayList.get(j).setNum(lastVal);
                 analysisDataArrayList.get(j).setProvinceName(p.getProvinceName());
                 val4=0;
                 j++;
-
             }
         }
-        System.out.println(analysisDataArrayList);
         return analysisDataArrayList;
 
     }
 
     public String getYear(){
         return activityDao.getYear().substring(0, 4);
+    }
+
+    public  int getActivityAccountByInput(String input){
+        return activityDao.getActivityCountByCondition(input);
+    }
+
+    public  int getActivityAccountByInput2(String input){
+        return activityDao.getActivityCountByCondition2(input);
     }
 }

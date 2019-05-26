@@ -40,9 +40,14 @@ public class LoginController {
         user = userService.getUserInfo(user);
         if(user != null){    //登录
             //用户存在，数据保存到session中
-            HttpSession session = request.getSession(true);
-            session.setAttribute("userInfo",user);
-            return user;
+            HttpSession session = request.getSession(false);
+            if(session.getAttribute("userInfo") != null){
+                return "F1";
+            }else {
+                session.setAttribute("userInfo",user);
+                return user;
+            }
+
         }
         return "F";
     }
@@ -60,9 +65,13 @@ public class LoginController {
         //System.out.println(user.toString());
         if(user != null){    //登录
             //用户存在，数据保存到session中
-            HttpSession session = request.getSession(true);
-            session.setAttribute("userInfo",user);
-            return user;
+            HttpSession session = request.getSession(false);
+            if(session.getAttribute("userInfo") != null){
+                return "F1";
+            }else {
+                session.setAttribute("userInfo",user);
+                return user;
+            }
         }
         return "F";
     }

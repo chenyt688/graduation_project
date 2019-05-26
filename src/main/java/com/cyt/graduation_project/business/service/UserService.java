@@ -166,5 +166,9 @@ public class UserService {
     public User getUserInfoByUserId(User user){
         return userDao.getUserInfoByUserId(user);
     }
+    //获取用户信息根据用户id
+    public User getUserInfoByUserId2(int userId){
+        return userDao.getUserInfoByUserId2(userId);
+    }
 
 }

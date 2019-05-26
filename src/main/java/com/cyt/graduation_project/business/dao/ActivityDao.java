@@ -96,5 +96,21 @@ public interface ActivityDao {
     @Select("select application_time from activity_info  order by activity_end_time  ASC limit 1")
     public String getYear();
 
+    @Select(" select count(*) from activity_info where\n" +
+            "        activity_address like CONCAT(CONCAT('%', #{condition}), '%') or\n" +
+            "        topic like CONCAT(CONCAT('%', #{condition}), '%') or\n" +
+            "        province_name like CONCAT(CONCAT('%', #{condition}), '%')\n" +
+            "        and del_flag = 1")
+    public int getActivityCountByCondition(@Param("condition") String condition);
+
+
+    @Select(" select count(*) from activity_info where\n" +
+            "        activity_address like CONCAT(CONCAT('%', #{condition}), '%') or\n" +
+            "        topic like CONCAT(CONCAT('%', #{condition}), '%') or\n" +
+            "        province_name like CONCAT(CONCAT('%', #{condition}), '%')\n" +
+            "        and del_flag = 1 and review_status in (2,4)")
+    public int getActivityCountByCondition2(@Param("condition") String condition);
+
+
 
 }

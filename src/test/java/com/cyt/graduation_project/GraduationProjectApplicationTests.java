@@ -1,18 +1,13 @@
+/*
 package com.cyt.graduation_project;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import sun.misc.BASE64Encoder;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 @RunWith(SpringRunner.class)
 @Slf4j
@@ -29,7 +24,8 @@ public class GraduationProjectApplicationTests {
         log.debug("debug....");
         log.error("error....");
     }
-    /*@Test
+    */
+/*@Test
     //判断本地是否存在图片
     public static boolean getRource(String source){
         try {
@@ -42,10 +38,12 @@ public class GraduationProjectApplicationTests {
         } catch (Exception e) {
             return false;
         }
-    }*/
+    }*//*
+
     //读取照片
     public  byte[] getImg(String filepath){
-        BASE64Encoder encoder = new BASE64Encoder();         //通过base64 转化图片
+        */
+/*BASE64Encoder encoder = new BASE64Encoder();         //通过base64 转化图片
         String img = "";
         //获得输入流,将文件读到内存
         FileInputStream in = null;
@@ -67,25 +65,29 @@ public class GraduationProjectApplicationTests {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*//*
+
         return null;
 
     }
 
     @Test
     public  void main1(){
-        getImg("E://BD/UserInfo/用户cyt/个人申请书.jpg");
-        /*File file=new File("E://BD/UserInfo/用户cyt/个人申请书.jpg");
+        //getImg("E://BD/UserInfo/用户cyt/个人申请书.jpg");
+        */
+/*File file=new File("E://BD/UserInfo/用户cyt/个人申请书.jpg");
 
         if(!file.exists()){
             System.out.println("文件不存在");
         }else{
             System.out.println("文件存在");
-        }*/
+        }*//*
 
 
 
-       /* String date = "2019-01-31T14:53:48.8889Z";
+
+       */
+/* String date = "2019-01-31T14:53:48.8889Z";
 
         System.out.println(DateFormatUtil.dateFormat2(date));
 
@@ -95,22 +97,28 @@ public class GraduationProjectApplicationTests {
         for(int i = 0 ;i<s.length;i++){
             System.out.println(s[i] + i);
         }
-*/
-        /*NewsCrawlerUtil newsCrawlerUtil =new  NewsCrawlerUtil("sss",true);
+*//*
+
+        */
+/*NewsCrawlerUtil newsCrawlerUtil =new  NewsCrawlerUtil("sss",true);
         try {
             newsCrawlerUtil.start(2);
         } catch (Exception e) {
             e.printStackTrace();
-        }*/
+        }*//*
 
 
-        /*Date t = new Date();
+
+        */
+/*Date t = new Date();
         java.sql.Date sqld = new java.sql.Date(t.getTime());
         System.out.println(sqld);
         java.sql.Time sqlt = new java.sql.Time(t.getTime());
-        System.out.println(sqlt);*/
+        System.out.println(sqlt);*//*
+
     }
 
 
 
 }
+*/

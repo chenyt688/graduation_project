@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @CrossOrigin
 @RestController
@@ -84,6 +85,7 @@ public class ActivityController {
         return activityService.queryAllActivityInfoPublished(page,pageSize);
 
     }
+
 
     //查询所有的支教活动信息
     @RequestMapping(value = "/queryAllActivityInfo", method = RequestMethod.PUT)
@@ -306,4 +308,23 @@ public class ActivityController {
     public Object getYear(){
         return activityService.getYear();
     }
+
+
+    @RequestMapping(value = "/getActivityAccountByInput")
+    public  Object getActivityAccountByInput(String input,HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("userInfo");
+        if(user!=null){
+            if(user.getRoleId() == 2){
+                return activityService.getActivityAccountByInput(input);
+            }
+        }else {
+            return activityService.getActivityAccountByInput2(input);
+        }
+        return activityService.getActivityAccountByInput2(input);
+
+    }
+
+
 }

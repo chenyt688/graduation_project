@@ -14,7 +14,7 @@ public interface UserDao {
     User getUserInfoByPhone(@Param("userPhone") String userPhone);
 
     //根据用户电话号码查询用户信息
-    @Select("select count(*) from userInfo where user_phone = #{userPhone}")
+    @Select("select count(*) from userinfo where user_phone = #{userPhone}")
     int getUserCountByPhone(@Param("userPhone") String userPhone);
 
     //用户通过电话号码注册信息,注册时间自动生成
@@ -28,7 +28,7 @@ public interface UserDao {
     void updateUserPassword(User user);
 
     //获取所有用户数据
-    @Select("select * from userInfo where del_flag = 1 limit #{startIndex},#{pageSize}")
+    @Select("select * from userinfo where del_flag = 1 limit #{startIndex},#{pageSize}")
     List<User> getAllUserInfo(@Param("startIndex") int startIndex, @Param("pageSize") int pageSize);
 
     //通过用户id删除用户数据（逻辑删除）
@@ -38,7 +38,7 @@ public interface UserDao {
     boolean deleteMulUserInfoByUserId(String[] userIdArr);
 
     //获取用户数量
-    @Select("SELECT COUNT(*)  from userInfo where del_flag = 1")
+    @Select("SELECT COUNT(*)  from userinfo where del_flag = 1")
     int getUserInfoAccount();
 
     //获取用户数量通过条件查询
@@ -61,6 +61,9 @@ public interface UserDao {
     @Select("select * from userInfo where user_id = #{userId}")
     User getUserInfoByUserId(User user);
 
+    //获取用户信息通过userId
+    @Select("select * from userInfo where user_id = #{userId}")
+    User getUserInfoByUserId2(int userId);
 
     //根据用户电话号码查询用户数量
     @Select("select COUNT(*)  from userInfo where user_phone = #{userPhone}")
