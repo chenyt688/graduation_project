@@ -23,11 +23,10 @@ public class ActivityController {
     @Autowired
     private AddressService addressService;
 
-
-    //通过条件查询活动数据
-    @RequestMapping(value = "/getActivityInfoByCondition", method = RequestMethod.PUT)
-    public Object getActivityInfoByCondition(int page, int pageSize, String inputCondition,HttpServletRequest request){
-        User user = (User) request.getSession().getAttribute("userInfo");
+    //查询数量
+    @RequestMapping(value = "/getActivityNumByCondition", method = RequestMethod.PUT)
+    public Object getActivityNumByCondition(int type ,Integer userIdStr,int page, int pageSize, String inputCondition,HttpServletRequest request){
+        User user = (User) request.getSession().getAttribute(userIdStr+"");
         int state = -1 ;
         switch (inputCondition){
             case "待审核":
@@ -42,55 +41,87 @@ public class ActivityController {
             case "审核未过":
                 state = 3;
                 break;
+            case "结束":
+                state = 4;
+                break;
         }
         if(user != null && user.getRoleId() == 2){          //管理员
-
-            if(!inputCondition.trim().equals("") || inputCondition != null){
-                if(inputCondition.equals("personal")){          //查询个人申请的活动信息
-                    return activityService.getPersonalActivityInfoByUserId(page,pageSize,user.getUserId());
-
+            if(type !=3){
+                if(state != -1){   //按活动状态查询
+                    return activityService.getActivityNumByState(state);
                 }else {
-                    if(state != -1){   //按活动状态查询
-                        return activityService.getActivityInfoByState(page,pageSize,state);
-                    }else {
-                        return activityService.getActivityInfoByCondition(page,pageSize,inputCondition);
-                    }
+                    return activityService.getActivityNumByCondition(inputCondition);
                 }
 
-
+            }else{
+                return activityService.getPersonalActivityNumyUserId(user.getUserId());
             }
-        }else if(user != null && user.getRoleId() == 1){   //用户
-            if(!inputCondition.trim().equals("") || inputCondition != null){
-                if(inputCondition.equals("personal")){          //查询个人申请的活动信息
-                    return activityService.getPersonalActivityInfoByUserId(page,pageSize,user.getUserId());
-
-                }else {     //一般用户只能查询发布状态的活动信息
-                    return activityService.getActivityPublishInfoByCondition(page,pageSize,inputCondition);
-
+        }else {
+            if (user != null && user.getRoleId() == 1) {
+                if (type == 3) {
+                    return activityService.getPersonalActivityNumyUserId(user.getUserId());
                 }
             }
-        }else if(user == null){                         //未登录
-            if(!inputCondition.trim().equals("") || inputCondition != null){
-                if(inputCondition.equals("personal")){          //查询个人申请的活动信息
-                    return null;
-
-                }else {     //一般用户只能查询发布状态的活动信息
-                    return activityService.getActivityPublishInfoByCondition(page,pageSize,inputCondition);
-
-                }
+            if(state == 2 || state ==4 ){   //按活动状态查询
+                return activityService.getActivityNumByState(state);
             }
+            return activityService.queryAllActivityNumPublishedByCondition(inputCondition);
         }
 
-        //游客只能查看已经发布的志愿活动
-        return activityService.queryAllActivityInfoPublished(page,pageSize);
+
+    }
+    //通过条件查询活动数据
+    @RequestMapping(value = "/getActivityInfoByCondition", method = RequestMethod.PUT)
+    public Object getActivityInfoByCondition(int type ,Integer userIdStr,int page, int pageSize, String inputCondition,HttpServletRequest request){
+        User user = (User) request.getSession().getAttribute(userIdStr+"");
+        int state = -1 ;
+        switch (inputCondition){
+            case "待审核":
+                state = 0;
+                break;
+            case "已审核":
+                state = 1;
+                break;
+            case "已发布":
+                state = 2;
+                break;
+            case "审核未过":
+                state = 3;
+                break;
+            case "结束":
+                state = 4;
+                break;
+        }
+        if(user != null && user.getRoleId() == 2){          //管理员
+            if(type !=3){
+                if(state != -1){   //按活动状态查询
+                    return activityService.getActivityInfoByState(page,pageSize,state);
+                }else {
+                    return activityService.getActivityInfoByCondition(page,pageSize,inputCondition);
+                }
+            }else{
+                return activityService.getPersonalActivityInfoByUserId(page,pageSize,user.getUserId());
+            }
+        }else {
+            if (user != null && user.getRoleId() == 1) {
+                if (type == 3) {
+                    return activityService.getPersonalActivityInfoByUserId(page, pageSize, user.getUserId());
+                }
+            }
+            if(state == 2 || state ==4 ){   //按活动状态查询
+                return activityService.getActivityInfoByState(page,pageSize,state);
+            }
+            return activityService.queryAllActivityInfoPublishedByCondition(page,pageSize,inputCondition);
+        }
+
 
     }
 
 
     //查询所有的支教活动信息
     @RequestMapping(value = "/queryAllActivityInfo", method = RequestMethod.PUT)
-    public Object queryAllActivityInfo(int page,int pageSize,HttpServletRequest request){
-        User user = (User) request.getSession().getAttribute("userInfo");
+    public Object queryAllActivityInfo(Integer userIdStr, int page,int pageSize,HttpServletRequest request){
+        User user = (User) request.getSession().getAttribute(userIdStr+"");
         if(user != null && user.getRoleId() == 2){   //管理员可以查看所有类型的活动信息
             return activityService.queryAllActivityInfo(page,pageSize);
         }
@@ -111,7 +142,7 @@ public class ActivityController {
 
     //更新支教活动信息状态
     @RequestMapping(value = "/updateActivityState", method = RequestMethod.PUT)
-    public boolean updateActivityState(int activityId,int reviewStatus){
+    public Boolean updateActivityState(int activityId,int reviewStatus){
 
         return activityService.updateActivityState(activityId,reviewStatus);
 
@@ -136,11 +167,11 @@ public class ActivityController {
     //新增支教活动信息
     @RequestMapping("/addActivityInfo")
     public Object addActivityInfo(@RequestBody ActivityInfo activityInfo, HttpServletRequest request){
-        User user = (User) request.getSession().getAttribute("userInfo");
+        User user = (User) request.getSession().getAttribute(activityInfo.getUserId()+"");
         String flag = "F";
         if(user != null){
             //将时间转换为标准格式
-            activityInfo.setUserId(user.getUserId());
+            //activityInfo.setUserId(user.getUserId());
             if(activityInfo.getActivityStartTime() != null){
                 activityInfo.setActivityStartTime(DateFormatUtil.dateFormat2(activityInfo.getActivityStartTime()));
                 activityInfo.setActivityEndTime(DateFormatUtil.dateFormat2(activityInfo.getActivityEndTime()));
@@ -183,8 +214,9 @@ public class ActivityController {
 
     //通过活动id删除支教活动信息（未审核之前可以删除 0表示未审核）
     @RequestMapping(value = "/deleteActivityInfoById", method = RequestMethod.PUT)
-    public Object deleteActivityInfoById(int activityId,HttpServletRequest request){
-        User user = (User) request.getSession().getAttribute("userInfo");
+    public Object deleteActivityInfoById(int activityId,Integer userIdStr,HttpServletRequest request){
+        System.out.println(userIdStr);
+        User user = (User) request.getSession().getAttribute(userIdStr+"");
         String flag = "F";
 
         if(user != null && user.getRoleId() == 2){
@@ -209,9 +241,10 @@ public class ActivityController {
 
 
     //查询已经登录用户申请的志愿活动数量
-    @RequestMapping("/queryActivityNumByUserLoging")
-    public int queryActivityNumByUserLoging(HttpServletRequest request){
-        User user = (User) request.getSession().getAttribute("userInfo");
+    @RequestMapping(value = "/queryActivityNumByUserLoging",method = RequestMethod.PUT)
+    public Object queryActivityNumByUserLoging(HttpServletRequest request,Integer userIdStr){
+        System.out.println(userIdStr);
+        User user = (User) request.getSession().getAttribute(userIdStr+"");
         if(user != null){
             return activityService.queryActivityNumByUserLoging(user.getUserId());
         }else{
@@ -324,6 +357,12 @@ public class ActivityController {
         }
         return activityService.getActivityAccountByInput2(input);
 
+    }
+
+    //查看个人申请的支教活动
+    @RequestMapping(value = "/searchPersonalByCondition",method = RequestMethod.PUT)
+    public Object searchPersonalByCondition(Integer userIdStr,int page, int pageSize){
+        return activityService.getPersonalActivityInfoByUserId(page,pageSize,userIdStr);
     }
 
 

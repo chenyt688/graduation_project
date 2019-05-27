@@ -25,7 +25,6 @@ public class ImgController {
     //图片上传
     @RequestMapping("/uploadImg")
     public void uploadImg(@RequestParam("picture") MultipartFile imgFile, HttpServletRequest request){
-
         User user = (User) request.getSession().getAttribute("userInfo");
         String userFileName ="用户" + user.getUserAccount();
         String path = "E://BD/UserInfo/" + userFileName ;
@@ -50,8 +49,8 @@ public class ImgController {
     }
 
     @RequestMapping("/uploadPicture")
-    public void uploadPicture(@RequestParam("picture") MultipartFile imgFile, HttpServletRequest request) throws IOException {
-        User user = (User) request.getSession().getAttribute("userInfo");
+    public void uploadPicture(@RequestParam("picture") MultipartFile imgFile,Integer userIdStr, HttpServletRequest request) throws IOException {
+        User user = (User) request.getSession().getAttribute(userIdStr+"");
         String imgStr = "";
         Picture picture = new Picture();
         imgStr = Base64.encodeBase64String(imgFile.getBytes());  //将图片转换为字符格式

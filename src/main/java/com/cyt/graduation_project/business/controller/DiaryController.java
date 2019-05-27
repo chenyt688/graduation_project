@@ -38,8 +38,9 @@ public class DiaryController {
 
     //查询日记信息
     @RequestMapping(value = "/queryDiaryInfo", method = RequestMethod.PUT)
-    public Object queryDiaryInfo(HttpServletRequest request,int page, int pageSize){
-        User user = (User) request.getSession().getAttribute("userInfo");
+    public Object queryDiaryInfo(HttpServletRequest request,int userIdStr,int page, int pageSize){
+        System.out.println(userIdStr);
+        User user = (User) request.getSession().getAttribute(userIdStr+"");
         if (user != null && user.getRoleId() == 2){
             return diaryService.queryAllDiary(page,pageSize);  //管理员查询所有的日记信息
         }else {
@@ -54,8 +55,9 @@ public class DiaryController {
     }*/
 
     @RequestMapping("/queryDiaryNum")
-    public Object queryDiaryNum(HttpServletRequest request){
-        User user = (User) request.getSession().getAttribute("userInfo");
+    public Object queryDiaryNum(HttpServletRequest request,int userIdStr){
+        System.out.println(userIdStr);
+        User user = (User) request.getSession().getAttribute(userIdStr+"");
         if(user != null && user.getRoleId() == 2){
             return  diaryService.queryDiaryNum(); //管理员查询日记数量
         }else {
@@ -87,7 +89,7 @@ public class DiaryController {
 
     //将登陆用户的数据赋值到Dairy中
     public Diary setUserInfo(Diary diary,HttpServletRequest request){
-        User user = (User) request.getSession().getAttribute("userInfo");
+        User user = (User) request.getSession().getAttribute(diary.getUserId()+"");
         diary.setUserId(user.getUserId());
         diary.setUserAccount(user.getUserAccount());
         diary.setUserName(user.getUserName());
@@ -101,9 +103,9 @@ public class DiaryController {
     }
 
     @RequestMapping(value = "/queryAllDiaryByCondition",method = RequestMethod.PUT)
-    public Object queryAllDiaryByCondition(int page, int pageSize,String inputCondition,HttpServletRequest request){
-        System.out.println(page +  "  "+ pageSize+ inputCondition);
-        User user = (User) request.getSession().getAttribute("userInfo");
+    public Object queryAllDiaryByCondition(int userIdStr ,int page, int pageSize,String inputCondition,HttpServletRequest request){
+        System.out.println(userIdStr);
+        User user = (User) request.getSession().getAttribute(userIdStr+"");
         if(user != null &&user.getRoleId() == 2){   //管理员模糊查询
             return diaryService.queryAllDiaryByCondition(page,pageSize,inputCondition);
         }else{         //用户模糊查询

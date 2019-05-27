@@ -33,6 +33,14 @@ public class ActivityService {
         int startIndex = PageUtil.getPageArea(page, pageSize);
         return activityDao.queryAllActivityInfoPublished(startIndex, pageSize);
     }
+    //条件查询所有的已发布支教活动信息
+    public ArrayList<ActivityInfo> queryAllActivityInfoPublishedByCondition(int page, int pageSize,String condition) {
+        int startIndex = PageUtil.getPageArea(page, pageSize);
+        return activityDao.queryAllActivityInfoPublishedByCondition(startIndex, pageSize,condition);
+    }
+    public int queryAllActivityNumPublishedByCondition(String condition) {
+        return activityDao.queryAllActivityNumPublishedByCondition(condition);
+    }
 
     //获取活动数量
     public int getActivityAccount() {
@@ -86,6 +94,12 @@ public class ActivityService {
         return activityDao.getActivityInfoByCondition(startIndex, pageSize, condition);
     }
 
+
+    //通过条件查询活动数据数量
+    public int getActivityNumByCondition(String condition) {
+        return activityDao.getActivityNumByCondition(condition);
+    }
+
     //通过条件查询发布志愿者活动数据
     public ArrayList<ActivityInfo> getActivityPublishInfoByCondition(int page, int pageSize, String condition) {
         int startIndex = PageUtil.getPageArea(page, pageSize);
@@ -97,13 +111,22 @@ public class ActivityService {
         int startIndex = PageUtil.getPageArea(page, pageSize);
         return activityDao.queryActivityInfoByUserId(startIndex, pageSize, userId);
     }
+    //已登录状态的用户查询个人申请的志愿活动数据
+    public int getPersonalActivityNumyUserId(int userId) {
+
+        return activityDao.queryActivityNumByUserId(userId);
+    }
 
     //通过活动状态查询活动数据
     public ArrayList<ActivityInfo> getActivityInfoByState(int page, int pageSize, int state) {
         int startIndex = PageUtil.getPageArea(page, pageSize);
         return activityDao.getActivityInfoByState(startIndex, pageSize, state);
     }
+    //通过活动状态查询活动数据
+    public int getActivityNumByState( int state) {
 
+        return activityDao.getActivityNumByState(state);
+    }
 
     //查询已经登录用户申请的志愿活动数量
 

@@ -15,8 +15,13 @@ public interface ActivityDao {
 
 
     //查询所有已经发布的支教活动信息      and sysdate() < activity_end_time
-    @Select("select * from activity_info where del_flag = 1 and review_status in (2,4) order by activity_end_time DESC limit #{startIndex},#{pageSize} ")
+    @Select("select * from activity_info where del_flag = 1 and review_status in (2,4)  order by activity_end_time DESC limit #{startIndex},#{pageSize} ")
     ArrayList<ActivityInfo> queryAllActivityInfoPublished(@Param("startIndex") int startIndex, @Param("pageSize") int pageSize);
+
+
+    ArrayList<ActivityInfo> queryAllActivityInfoPublishedByCondition(@Param("startIndex") int startIndex, @Param("pageSize") int pageSize ,@Param("condition") String condition);
+
+    int queryAllActivityNumPublishedByCondition(@Param("condition") String condition);
 
     //获取数量
     @Select("select COUNT(*) from activity_info where del_flag = 1")
@@ -44,6 +49,10 @@ public interface ActivityDao {
     @Select("select * from activity_info where user_id = #{userId} limit #{startIndex},#{pageSize}")
     ArrayList<ActivityInfo> queryActivityInfoByUserId(@Param("startIndex") int startIndex, @Param("pageSize") int pageSize, @Param("userId") int userId);
 
+    //通过用户id查找活动信息
+    @Select("select count(*) from activity_info where user_id = #{userId}")
+   int queryActivityNumByUserId(@Param("userId") int userId);
+
 
     //通过活动id查找活动信息
     @Select("select * from activity_info where activity_id = #{activityId}")
@@ -56,6 +65,7 @@ public interface ActivityDao {
 
     ArrayList<ActivityInfo> getActivityInfoByCondition(@Param("startIndex") int startIndex, @Param("pageSize") int pageSize, @Param("condition") String condition);
 
+    int getActivityNumByCondition(@Param("condition") String condition);
 
 
 
@@ -68,6 +78,9 @@ public interface ActivityDao {
     @Select("select * from activity_info where review_status = #{state} limit #{startIndex},#{pageSize}")
     ArrayList<ActivityInfo> getActivityInfoByState(@Param("startIndex") int startIndex, @Param("pageSize") int pageSize, @Param("state") int state);
 
+    //通过活动状态查询活动数据
+    @Select("select count(*) from activity_info where review_status = #{state}")
+   int getActivityNumByState( @Param("state") int state);
 
     //查询已经登录用户申请的志愿活动数量
     @Select("select COUNT(*) from activity_info where user_id = #{userId} and del_flag = 1")

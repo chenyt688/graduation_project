@@ -18,9 +18,9 @@ public class ResumeController {
     @Autowired
     private ResumeService resumeService;
     //通过用户id获取相应的简历
-    @RequestMapping("/getUserResumeByUserId")
-    public UserResume getUserResumeByUserId(HttpServletRequest request){
-        User user = (User) request.getSession().getAttribute("userInfo");
+    @RequestMapping(value = "/getUserResumeByUserId",method = RequestMethod.PUT)
+    public UserResume getUserResumeByUserId(HttpServletRequest request,Integer userIdStr){
+        User user = (User) request.getSession().getAttribute(userIdStr+"");
         UserResume resume  = resumeService.getUserResumeByUserId(user);
         if(user != null){       //判断用户未登录前台界面不可操作
             if(resume == null){

@@ -204,15 +204,15 @@ public class UserController {
     }
 
     //查询用户数据通过userId
-    @RequestMapping("/getUserInfoByUserId")
+    @RequestMapping(value = "/getUserInfoByUserId",method = RequestMethod.PUT)
     @ResponseBody
-    public Object getUserInfoByUserId(HttpServletRequest request){
-        User user = (User) request.getSession().getAttribute("userInfo");
+    public Object getUserInfoByUserId(HttpServletRequest request,Integer userIdStr){
+        User user = (User) request.getSession().getAttribute(userIdStr+"");
         return userService.getUserInfoByUserId(user);
     }
 
     //活动查询用户数据通过userId
-    @RequestMapping("/getUserInfoByUserIdToActivity")
+    @RequestMapping(value = "/getUserInfoByUserIdToActivity" )
     @ResponseBody
     public Object getUserInfoByUserIdToActivity(User user){
         return userService.getUserInfoByUserId(user);

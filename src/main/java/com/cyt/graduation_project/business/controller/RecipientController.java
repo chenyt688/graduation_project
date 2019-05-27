@@ -24,9 +24,9 @@ public class RecipientController {
     private RecipientService recipientService;
     //新增受助人信息
     @RequestMapping(value = "/inserRecipientInfo",method = RequestMethod.PUT)
-    public Object inserRecipientInfo(RecipientInfo recipientInfo,HttpServletRequest request){
+    public Object inserRecipientInfo(Integer userIdStr, RecipientInfo recipientInfo,HttpServletRequest request){
         String flag = "F";
-        recipientInfo = getNewRecipientInfo(recipientInfo,request);
+        recipientInfo = getNewRecipientInfo(recipientInfo,request,userIdStr);
         if(recipientInfo.getUserImgUrl()=="F"){     //材料不齐全
             return "F2";
         }else {
@@ -41,8 +41,8 @@ public class RecipientController {
     }
 
     //获取用户上传的图片保存到数据库
-    public RecipientInfo getNewRecipientInfo(RecipientInfo recipientInfo, HttpServletRequest request){
-        User user = (User) request.getSession().getAttribute("userInfo");
+    public RecipientInfo getNewRecipientInfo(RecipientInfo recipientInfo, HttpServletRequest request,Integer userIdStr){
+        User user = (User) request.getSession().getAttribute(userIdStr+"");
         String userFileName ="用户" + user.getUserAccount();
         String path = "E://BD/UserInfo/" + userFileName ;
         boolean flag = true;
@@ -138,9 +138,9 @@ public class RecipientController {
 
     //查询申请用户数据
     @RequestMapping(value = "/queryAllRecipientInfo",method = RequestMethod.PUT)
-    public Object queryAllRecipientInfo(int page, int pageSize, String condition,HttpServletRequest request){
+    public Object queryAllRecipientInfo(Integer userIdStr, int page, int pageSize, String condition,HttpServletRequest request){
         //System.out.println(page + pageSize + condition);
-        User user = (User) request.getSession().getAttribute("userInfo");
+        User user = (User) request.getSession().getAttribute(userIdStr+"");
         if(user != null && user.getRoleId() == 2){
             return recipientService.queryAllRecipientInfo(page,pageSize,condition);//管理员查询所有申请资助的用户
 
@@ -154,8 +154,8 @@ public class RecipientController {
     //查询数量
 
     @RequestMapping(value = "/queryAllRecipientInfoNum",method = RequestMethod.PUT)
-    public Object queryAllRecipientInfoNum(String condition,HttpServletRequest request){
-        User user = (User) request.getSession().getAttribute("userInfo");
+    public Object queryAllRecipientInfoNum(Integer userIdStr, String condition,HttpServletRequest request){
+        User user = (User) request.getSession().getAttribute(userIdStr+"");
         if(user != null && user.getRoleId() == 2) {   //管理员查询所有的申请用户数量
             return recipientService.queryAllRecipientInfoNum(condition);
         }else {                         //用户查询审核通过的申请用户数量

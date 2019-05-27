@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,11 +41,12 @@ public class LoginController {
         user = userService.getUserInfo(user);
         if(user != null){    //登录
             //用户存在，数据保存到session中
-            HttpSession session = request.getSession(false);
-            if(session.getAttribute("userInfo") != null){
+            HttpSession session = request.getSession();
+            session.setMaxInactiveInterval(30*60);
+            if(session.getAttribute(user.getUserId()+"") != null){
                 return "F1";
             }else {
-                session.setAttribute("userInfo",user);
+                session.setAttribute(user.getUserId()+"",user);
                 return user;
             }
 
@@ -65,11 +67,12 @@ public class LoginController {
         //System.out.println(user.toString());
         if(user != null){    //登录
             //用户存在，数据保存到session中
-            HttpSession session = request.getSession(false);
-            if(session.getAttribute("userInfo") != null){
+            HttpSession session = request.getSession();
+            session.setMaxInactiveInterval(30*60);
+            if(session.getAttribute(user.getUserId()+"") != null){
                 return "F1";
             }else {
-                session.setAttribute("userInfo",user);
+                session.setAttribute(user.getUserId()+"",user);
                 return user;
             }
         }
@@ -78,11 +81,12 @@ public class LoginController {
 
 
     //若无用户角色，默认游客模式，获取子菜单
-    @RequestMapping("/getSupmenu")
+    @RequestMapping(value = "/getSupmenu",method = RequestMethod.PUT )
     @ResponseBody
-    public Role getSupmenu(HttpServletRequest request){
+    public Role getSupmenu(HttpServletRequest request,String userIdStr){
+        System.out.println(userIdStr);
         HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("userInfo");
+        User user = (User) session.getAttribute(userIdStr);
         Role menuByRoleId = null;
         if(user != null){
             menuByRoleId = roleMenuService.getMenuByRoleId(user.getRoleId());
@@ -123,14 +127,14 @@ public class LoginController {
 
     /**
      *用户退出登陆
-     * @param user
+     * @param userIdStr
      * @param request
      * @return
      */
     @RequestMapping("/loginOut")
-    public Object loginOut(User user,HttpServletRequest request){
+    public Object loginOut(Integer userIdStr,HttpServletRequest request){
         HttpSession session = request.getSession();
-        session.invalidate();
+        session.removeAttribute(userIdStr+"");
         return "redirect:http://localhost:8080/";
     }
 
