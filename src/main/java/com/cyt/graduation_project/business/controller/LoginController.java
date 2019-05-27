@@ -84,7 +84,6 @@ public class LoginController {
     @RequestMapping(value = "/getSupmenu",method = RequestMethod.PUT )
     @ResponseBody
     public Role getSupmenu(HttpServletRequest request,String userIdStr){
-        System.out.println(userIdStr);
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(userIdStr);
         Role menuByRoleId = null;
@@ -118,7 +117,6 @@ public class LoginController {
     @RequestMapping("/yzmData")
     @ResponseBody
     public Object yzmData(String userPhone){
-        System.out.println(userPhone);
         SendMessage sendMessage = new SendMessage();                //调用方法向用户手机发送验证码
         String news = sendMessage.sendNews(userPhone);
         return news;

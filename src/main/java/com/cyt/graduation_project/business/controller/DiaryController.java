@@ -38,8 +38,7 @@ public class DiaryController {
 
     //查询日记信息
     @RequestMapping(value = "/queryDiaryInfo", method = RequestMethod.PUT)
-    public Object queryDiaryInfo(HttpServletRequest request,int userIdStr,int page, int pageSize){
-        System.out.println(userIdStr);
+    public Object queryDiaryInfo(HttpServletRequest request,Integer userIdStr,int page, int pageSize){
         User user = (User) request.getSession().getAttribute(userIdStr+"");
         if (user != null && user.getRoleId() == 2){
             return diaryService.queryAllDiary(page,pageSize);  //管理员查询所有的日记信息
@@ -55,8 +54,8 @@ public class DiaryController {
     }*/
 
     @RequestMapping("/queryDiaryNum")
-    public Object queryDiaryNum(HttpServletRequest request,int userIdStr){
-        System.out.println(userIdStr);
+    public Object queryDiaryNum(HttpServletRequest request,Integer userIdStr){
+
         User user = (User) request.getSession().getAttribute(userIdStr+"");
         if(user != null && user.getRoleId() == 2){
             return  diaryService.queryDiaryNum(); //管理员查询日记数量
@@ -103,8 +102,8 @@ public class DiaryController {
     }
 
     @RequestMapping(value = "/queryAllDiaryByCondition",method = RequestMethod.PUT)
-    public Object queryAllDiaryByCondition(int userIdStr ,int page, int pageSize,String inputCondition,HttpServletRequest request){
-        System.out.println(userIdStr);
+    public Object queryAllDiaryByCondition(Integer userIdStr ,int page, int pageSize,String inputCondition,HttpServletRequest request){
+
         User user = (User) request.getSession().getAttribute(userIdStr+"");
         if(user != null &&user.getRoleId() == 2){   //管理员模糊查询
             return diaryService.queryAllDiaryByCondition(page,pageSize,inputCondition);

@@ -243,7 +243,7 @@ public class ActivityController {
     //查询已经登录用户申请的志愿活动数量
     @RequestMapping(value = "/queryActivityNumByUserLoging",method = RequestMethod.PUT)
     public Object queryActivityNumByUserLoging(HttpServletRequest request,Integer userIdStr){
-        System.out.println(userIdStr);
+
         User user = (User) request.getSession().getAttribute(userIdStr+"");
         if(user != null){
             return activityService.queryActivityNumByUserLoging(user.getUserId());

@@ -5,13 +5,13 @@
 <mapper namespace="com.cyt.graduation_project.business.dao.ActivityDao">
 
     <resultMap id="activityMap" type="com.cyt.graduation_project.business.entry.activity.ActivityInfo">
-        <id column="activity_d" property="activityId"/>
+        <id column="activity_id" property="activityId"/>
         <result column="user_id" property="userId"/>
         <result column="activity_address" property="activityAddress"/>
         <result column="application_time" property="applicationTime"/>
         <result column="pass_time" property="passTime"/>
         <result column="activity_start_time" property="activityStartTime"/>
-        <result column="activity_endTime" property="activityEndTime"/>
+        <result column="activity_end_time" property="activityEndTime"/>
         <result column="topic" property="topic"/>
         <result column="img_url" property="imgUrl"/>
         <result column="demand_num" property="demandNum"/>
@@ -53,6 +53,7 @@
         topic like CONCAT(CONCAT('%', #{condition}), '%') or
         province_name like CONCAT(CONCAT('%', #{condition}), '%')
         and del_flag = 1
+        order by application_time DESC
         limit #{startIndex},#{pageSize}
     </select>
 
@@ -72,6 +73,7 @@
         topic like CONCAT(CONCAT('%', #{condition}), '%') or
         province_name like CONCAT(CONCAT('%', #{condition}), '%')
         and review_status in (2,4)  and del_flag = 1
+        order by application_time DESC
         limit #{startIndex},#{pageSize}
     </select>
 
