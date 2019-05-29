@@ -28,6 +28,7 @@ public class UserService {
     public User getUserInfo(User user){
         int roleId = user.getRoleId();
         user = userDao.getUserInfo(user.getUserAccount(),user.getUserPassword(),roleId);
+        System.out.println(user);
         return user;
     }
 

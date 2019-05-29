@@ -83,7 +83,7 @@ public class LoginController {
     //若无用户角色，默认游客模式，获取子菜单
     @RequestMapping(value = "/getSupmenu",method = RequestMethod.PUT )
     @ResponseBody
-    public Role getSupmenu(HttpServletRequest request,String userIdStr){
+    public Object getSupmenu(HttpServletRequest request,String userIdStr){
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(userIdStr);
         Role menuByRoleId = null;
@@ -92,6 +92,7 @@ public class LoginController {
         }else {          //游客模式
             menuByRoleId = roleMenuService.getMenuByRoleId(3);
         }
+        System.out.println(menuByRoleId);
         return menuByRoleId;
     }
 
@@ -104,6 +105,7 @@ public class LoginController {
     @ResponseBody
     public Object getMenuList(){
         List<Basemenu> baseMenu = menuInfoService.getBaseMenu();
+        System.out.println(baseMenu);
         return baseMenu;
 
     }

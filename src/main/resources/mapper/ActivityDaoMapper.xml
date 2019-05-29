@@ -69,9 +69,9 @@
 
     <select id="queryAllActivityInfoPublishedByCondition" resultMap="activityMap">
         select * from activity_info where
-        activity_address like CONCAT(CONCAT('%', #{condition}), '%') or
+        (activity_address like CONCAT(CONCAT('%', #{condition}), '%') or
         topic like CONCAT(CONCAT('%', #{condition}), '%') or
-        province_name like CONCAT(CONCAT('%', #{condition}), '%')
+        province_name like CONCAT(CONCAT('%', #{condition}), '%'))
         and review_status in (2,4)  and del_flag = 1
         order by application_time DESC
         limit #{startIndex},#{pageSize}
@@ -79,18 +79,18 @@
 
     <select id="queryAllActivityNumPublishedByCondition" resultType="int">
         select count(*) from activity_info where
-        activity_address like CONCAT(CONCAT('%', #{condition}), '%') or
+        (activity_address like CONCAT(CONCAT('%', #{condition}), '%') or
         topic like CONCAT(CONCAT('%', #{condition}), '%') or
-        province_name like CONCAT(CONCAT('%', #{condition}), '%')
+        province_name like CONCAT(CONCAT('%', #{condition}), '%'))
         and review_status in (2,4)  and del_flag = 1
 
     </select>
 
     <select id="getActivityPublishInfoByCondition" resultMap="activityMap">
         select * from activity_info where   (
-        activity_address like CONCAT(CONCAT('%', #{condition}), '%') or
+        (activity_address like CONCAT(CONCAT('%', #{condition}), '%') or
         topic like CONCAT(CONCAT('%', #{condition}), '%') or
-        province_name like CONCAT(CONCAT('%', #{condition}), '%'))
+        province_name like CONCAT(CONCAT('%', #{condition}), '%')))
         and review_status in(2,4) and  del_flag = 1
         limit #{startIndex},#{pageSize}
     </select>

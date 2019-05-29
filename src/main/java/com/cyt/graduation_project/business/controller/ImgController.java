@@ -24,13 +24,13 @@ public class ImgController {
     private PictureService pictureService;
     //图片上传
     @RequestMapping("/uploadImg")
-    public void uploadImg(@RequestParam("picture") MultipartFile imgFile,@RequestParam("0")String userIdStr, HttpServletRequest request){
+    public void uploadImg(@RequestParam("picture") MultipartFile imgFile,@RequestParam("userIdStr")String userIdStr, HttpServletRequest request){
         User user = (User) request.getSession().getAttribute(userIdStr);
         String userFileName ="用户" + user.getUserAccount();
         String path = "E://BD/UserInfo/" + userFileName ;
         File fileUrl = new File(path);              //文件夹名称：用户 + 用户账号
         if(!fileUrl.exists()){//如果文件夹不存在
-            fileUrl.mkdir();//创建文件夹
+            fileUrl.mkdirs();//创建文件夹
         }
         String fileName=imgFile.getOriginalFilename();
         //String id = GenerateInfo.getAccount();
@@ -49,7 +49,7 @@ public class ImgController {
     }
 
     @RequestMapping("/uploadPicture")
-    public void uploadPicture(@RequestParam("picture") MultipartFile imgFile,@RequestParam("0")String userIdStr,HttpServletRequest request) throws IOException {
+    public void uploadPicture(@RequestParam("picture") MultipartFile imgFile,@RequestParam("userIdStr")String userIdStr,HttpServletRequest request) throws IOException {
         User user = (User) request.getSession().getAttribute(userIdStr);
         String imgStr = "";
         Picture picture = new Picture();
