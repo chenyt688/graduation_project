@@ -42,9 +42,11 @@ public class LoginController {
         if(user != null){    //登录
             //用户存在，数据保存到session中
             HttpSession session = request.getSession();
-            session.setMaxInactiveInterval(30*60);
+            //session.setMaxInactiveInterval(30*60);
             if(session.getAttribute(user.getUserId()+"") != null){
-                return "F1";
+                session.setAttribute(user.getUserId()+"",user);
+                return user;
+                //return "F1";
             }else {
                 session.setAttribute(user.getUserId()+"",user);
                 return user;
@@ -68,9 +70,11 @@ public class LoginController {
         if(user != null){    //登录
             //用户存在，数据保存到session中
             HttpSession session = request.getSession();
-            session.setMaxInactiveInterval(30*60);
+            //session.setMaxInactiveInterval(30*60);
             if(session.getAttribute(user.getUserId()+"") != null){
-                return "F1";
+                session.setAttribute(user.getUserId()+"",user);
+                return user;
+                //return "F1";
             }else {
                 session.setAttribute(user.getUserId()+"",user);
                 return user;

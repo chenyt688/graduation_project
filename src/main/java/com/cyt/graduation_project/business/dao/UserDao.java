@@ -18,13 +18,13 @@ public interface UserDao {
     int getUserCountByPhone(@Param("userPhone") String userPhone);
 
     //用户通过电话号码注册信息,注册时间自动生成
-    @Insert("insert into userInfo(user_account,user_password,user_phone,role_id,del_flag) values(#{userAccount},#{userPassword},#{userPhone},#{roleId},#{delFlag})")
+    @Insert("insert into userinfo(user_account,user_password,user_phone,role_id,del_flag) values(#{userAccount},#{userPassword},#{userPhone},#{roleId},#{delFlag})")
     void registerUser(User user);
 
     // 判断用户账号是否已经存在或被使用
     boolean judgeUserByAccount(User user);
 
-    @Update("update userInfo set user_password = #{userPassword}  where user_phone = #{userPhone}")
+    @Update("update userinfo set user_password = #{userPassword}  where user_phone = #{userPhone}")
     void updateUserPassword(User user);
 
     //获取所有用户数据
@@ -54,24 +54,24 @@ public interface UserDao {
     boolean addUserInfo(User user);
 
     //查询用户账号是否存在
-    @Select("select COUNT(*)  from userInfo where user_account = #{userAccount}")
+    @Select("select COUNT(*)  from userinfo where user_account = #{userAccount}")
     int queryAccount(User user);
 
     //获取用户信息通过userId
-    @Select("select * from userInfo where user_id = #{userId}")
+    @Select("select * from userinfo where user_id = #{userId}")
     User getUserInfoByUserId(User user);
 
     //获取用户信息通过userId
-    @Select("select * from userInfo where user_id = #{userId}")
+    @Select("select * from userinfo where user_id = #{userId}")
     User getUserInfoByUserId2(int userId);
 
     //根据用户电话号码查询用户数量
-    @Select("select COUNT(*)  from userInfo where user_phone = #{userPhone}")
+    @Select("select COUNT(*)  from userinfo where user_phone = #{userPhone}")
     int getUserInfoNumByPhone(User user);
 
 
     //获取用户信息通过账号
-    @Select("SELECT * from userInfo where user_account = #{userAccount}")
+    @Select("SELECT * from userinfo where user_account = #{userAccount}")
     User getUserInfoByUserAccount(User user);
 
 
